@@ -1,0 +1,29 @@
+.sideNavBar{
+  .nav{
+    .nav-item {
+      // background-color: orange;
+      border-top-right-radius: 5px;
+      border-bottom-right-radius: 5px;
+      overflow: hidden;
+      font-weight: 400;
+      .active{
+        background: #FFC000;
+        color: black !important;
+        // img{
+        //   content: url('../../../assets/icons/side-bar/active-dashboard.svg');
+        // }
+      } 
+    }
+    .nav-item :hover{
+      background: #FFC000;
+      color: black !important;
+      // img{
+      //   content: url('../../../assets/icons/side-bar/active-dashboard.svg');
+      // }
+    }
+    a{
+      padding-top: 12px;
+      padding-bottom: 12px;
+    }
+  }
+}

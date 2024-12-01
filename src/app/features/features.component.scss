@@ -1,0 +1,17 @@
+.sidebar {
+    min-width: 300px;
+    min-height: 400px;
+    background: #385723;
+    transition: all 0.3s ease-in-out;
+}
+.sidebar.active {
+    width: 0;
+    overflow: hidden;
+}
+.main-content {
+    margin-left: 300px;
+    transition: all 0.3s ease-in-out;
+}
+.sidebar.active ~ .main-content {
+    margin-left: 0;
+}

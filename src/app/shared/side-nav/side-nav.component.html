@@ -1,0 +1,25 @@
+<div class="sideNavBar">
+    
+    <h5 class="text-uppercase">Navigation</h5>
+
+    <ul class="nav flex-column">
+        <li class="nav-item" *ngFor="let item of navList">
+            <a class="nav-link text-white" 
+                [routerLink]="item?.link"
+                [routerLinkActive]="'active'">
+                <img src="assets/icons/side-bar/{{item?.component}}.svg" class="px-3">
+                {{item?.name}}
+            </a>
+        </li>
+    </ul>
+
+    <!-- <nav class="navbar bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <img src="assets/icons/side-bar/key-holders.png" alt="Logo" class="d-inline-block align-text-top">
+                Bootstrap
+            </a>
+        </div>
+    </nav> -->
+
+</div>

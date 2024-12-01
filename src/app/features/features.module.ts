@@ -4,16 +4,34 @@ import { CommonModule } from '@angular/common';
 import { FeaturesRoutingModule } from './features-routing.module';
 import { FeaturesComponent } from './features.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { SideNavComponent } from '../shared/side-nav/side-nav.component';
+import { HeaderComponent } from '../shared/header/header.component';
+import { NotesComponent } from './notes/notes.component';
+import { MemoriesComponent } from './memories/memories.component';
+import { KeyHoldersComponent } from './key-holders/key-holders.component';
+import { AssetsComponent } from './assets/assets.component';
+import { PasswordsComponent } from './passwords/passwords.component';
+import { PersonalInfoComponent } from './personal-info/personal-info.component';
+import { ObituaryInfoComponent } from './obituary-info/obituary-info.component';
 
 
 @NgModule({
   declarations: [
     FeaturesComponent,
-    DashboardComponent
+    DashboardComponent,
+    NotesComponent,
+    MemoriesComponent,
+    KeyHoldersComponent,
+    AssetsComponent,
+    PasswordsComponent,
+    PersonalInfoComponent,
+    ObituaryInfoComponent
   ],
   imports: [
     CommonModule,
-    FeaturesRoutingModule
+    FeaturesRoutingModule,
+    SideNavComponent,
+    HeaderComponent
   ]
 })
 export class FeaturesModule { }
