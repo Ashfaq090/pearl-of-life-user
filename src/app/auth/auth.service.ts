@@ -9,7 +9,9 @@ export class AuthService {
     private baseUrl = 'http://localhost:3000'; // Replace with your API URL
     private auth = '/auth';
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient
+  ) {}
 
   // Method to call the login API
   login(credentials: { email: string; hashed_password: string }): Observable<any> {
@@ -18,8 +20,4 @@ export class AuthService {
     });
   }
 
-  // Add other methods for logout, registration, etc.
-  logout(): Observable<any> {
-    return this.http.post(`${this.baseUrl}${this.auth}/logout`, {});
-  }
 }

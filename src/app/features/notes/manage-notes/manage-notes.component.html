@@ -1,0 +1,46 @@
+<div class="modal-header">
+    <h4 class="modal-title">{{data.name}} Note</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="closeModal()"></button>
+</div>
+
+<form [formGroup]="noteForm" (submit)="submit()">
+
+    <div class="modal-body manage-note">
+        <div class="mb-3">
+            <label for="heading" class="col-form-label">Title</label>
+            <input type="text" placeholder="Title" class="form-control" id="heading"
+            formControlName="heading">
+        </div>
+        <div class="mb-3">
+            <label for="note_date" class="col-form-label">Date</label>
+            <div class="input-group position-relative mb-3">
+                <input
+                class="form-control pe-5"
+                    placeholder="DD/MM/YYYY"
+                    name="noteDate"
+                    formControlName="note_date"
+                    ngbDatepicker
+                    #noteDate="ngbDatepicker"
+                    readonly
+                    />
+                <span class="input-group-text" (click)="noteDate.toggle()">
+                    <img src="../../../../assets/icons/form/calender.svg">
+                </span>
+            </div>
+
+        </div>
+        <div class="mb-3">
+            <label for="description" class="col-form-label">Description</label>
+            <textarea class="form-control" rows="3" formControlName="description"></textarea>
+        </div>
+
+    </div>
+    
+    <div class="modal-footer d-flex justify-content-end">
+        
+        <button class="btn submit-button">
+            Save
+        </button>
+    </div>
+
+</form>

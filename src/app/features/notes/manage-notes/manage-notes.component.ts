@@ -1,0 +1,70 @@
+import { Component, Input, OnInit } from '@angular/core';
+import { FormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
+import { NgbActiveModal, NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
+import { NotesService } from '../notes.service';
+import { dateToIsoString, isoStringToDateObj } from 'src/app/constants/app.constant';
+
+@Component({
+  selector: 'app-manage-notes',
+  templateUrl: './manage-notes.component.html',
+  styleUrls: ['./manage-notes.component.scss']
+})
+export class ManageNotesComponent implements OnInit {
+
+  public noteForm: FormGroup;
+  @Input() data: any = {};
+  
+  constructor(
+    private readonly activeModal: NgbActiveModal,
+    private readonly formBuilder: UntypedFormBuilder,
+    private readonly notesService: NotesService
+  ){}
+
+  ngOnInit(): void {
+    this.noteForm = this.formBuilder.group({
+      heading: ['', [Validators.required, Validators.maxLength(20)]],
+      description: ['', Validators.required],
+      note_date: ['', Validators.required],
+    });
+    if(this.data?.item?.id){
+      this.patchForm();
+    }
+  }
+
+  patchForm(){
+    this.noteForm.patchValue({
+      heading: this.data.item.heading,
+      description: this.data.item.description,
+      note_date: isoStringToDateObj(this.data.item.note_date)
+    });
+    this.noteForm.updateValueAndValidity();
+  }
+
+  submit(){
+    console.log(this.noteForm);
+    if(this.noteForm.invalid){
+      console.log('Form invalid');
+      return;
+    } else{
+      const form = this.noteForm.value;
+      this.notesService.addUpdateNote({
+        heading: form.heading,
+        description: form.description,
+        note_date: dateToIsoString(form.note_date)
+      }, this.data?.item?.id || null).subscribe({
+        next: (response) => {
+          console.log('Success', response);
+          this.closeModal();
+        },
+        error: (error) => {
+          console.log('Add Update Failed', error);
+        }
+      });
+    }
+  }
+
+  closeModal(): void {
+    this.activeModal.close(null);
+  }
+
+}

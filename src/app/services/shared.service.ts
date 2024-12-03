@@ -1,10 +1,13 @@
-import { Injectable } from "@angular/core";
+import { inject, Injectable } from "@angular/core";
 import { BaseService } from "./base.service";
+import { Router } from "@angular/router";
 
 @Injectable({
     providedIn: 'root',
 })
 export class SharedService extends BaseService {
+
+    private router = inject(Router);    
     public userToken: string | null = localStorage.getItem('accessToken');
 
     public setUserToken(token: any): void {
@@ -14,5 +17,12 @@ export class SharedService extends BaseService {
 
     public clearUserData(): void {
         localStorage.clear();
+        this.userToken = null;
     }
+
+    public logout(): void {
+        this.clearUserData();
+        this.router.navigate(['/auth/login']);
+    }
+
 }

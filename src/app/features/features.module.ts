@@ -13,6 +13,11 @@ import { AssetsComponent } from './assets/assets.component';
 import { PasswordsComponent } from './passwords/passwords.component';
 import { PersonalInfoComponent } from './personal-info/personal-info.component';
 import { ObituaryInfoComponent } from './obituary-info/obituary-info.component';
+import { AddItemsCardComponent } from '../shared/add-items-card/add-items-card.component';
+import { NotesCardComponent } from '../shared/notes-card/notes-card.component';
+import { ManageNotesComponent } from './notes/manage-notes/manage-notes.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
@@ -25,13 +30,18 @@ import { ObituaryInfoComponent } from './obituary-info/obituary-info.component';
     AssetsComponent,
     PasswordsComponent,
     PersonalInfoComponent,
-    ObituaryInfoComponent
+    ObituaryInfoComponent,
+    ManageNotesComponent
   ],
   imports: [
     CommonModule,
     FeaturesRoutingModule,
     SideNavComponent,
-    HeaderComponent
+    HeaderComponent,
+    AddItemsCardComponent,
+    NotesCardComponent,
+    ReactiveFormsModule,
+    NgbDatepickerModule
   ]
 })
 export class FeaturesModule { }

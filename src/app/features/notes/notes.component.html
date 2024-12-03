@@ -1,0 +1,9 @@
+<div class="container notes">
+
+    <app-add-items-card [items]="addCardItems" (label)="openNotePopup($event)"></app-add-items-card>
+
+    <h5 class="pt-4">2024</h5>
+
+    <app-notes-card [items]="notes" (note)="openNotePopup($event)"></app-notes-card>
+
+</div>

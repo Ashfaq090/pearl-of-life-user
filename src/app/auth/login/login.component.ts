@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '../auth.service';
 import { tap } from 'rxjs';
@@ -11,7 +11,7 @@ import { SharedService } from 'src/app/services/shared.service';
   styleUrls: ['./login.component.scss']
 })
 
-export class LoginComponent {
+export class LoginComponent implements OnInit {
 
   public loginForm: FormGroup;
 
@@ -26,7 +26,7 @@ export class LoginComponent {
     this.loginForm = this.formBuilder.group({
       email: ['', Validators.required],
       password: ['', Validators.required]
-    })
+    });
   }
 
   login(){

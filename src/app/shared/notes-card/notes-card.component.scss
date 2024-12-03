@@ -1,0 +1,21 @@
+.notes{
+    .notes-card {
+        background: #C55A11;
+        border:2px solid #C55A11;
+        &:hover{
+            background-color: #fff;
+            .text-date{
+                color: #C55A11;
+            }
+            .text-content{
+                color: #000;
+            }
+        }
+        .text-date{
+            color: #fff;
+        }
+        .text-content{
+            color: #fff;
+        }
+    }
+}

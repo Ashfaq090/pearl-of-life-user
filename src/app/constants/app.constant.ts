@@ -40,3 +40,41 @@ export const SIDE_NAVIGATION = [
     link: '/obituary-info'
   }
 ];
+
+export const ADD_ITEMS_LIST = {
+  MEMORIES: {
+    text: 'Add Memories',
+    label: 'memories'
+  },
+  NOTES: {
+    text: 'Add Note',
+    label: 'notes'
+  },
+  PASSWORDS: {
+    text: 'Add Password',
+    label: 'passwords'
+  },
+  ASSETS: {
+    text: 'Add Asset',
+    label: 'assets'
+  },
+  KEY_HOLDERS: {
+    text: 'Add Key Holder',
+    label: 'key-holders'
+  }
+}
+
+export const dateToIsoString = (dateObject: any) => {
+  const date = new Date(`${dateObject?.year}-${dateObject?.month}-${dateObject?.day}`);
+  return date.toISOString() || null;
+}
+
+export const isoStringToDateObj = (isoString: string) => {
+  const dateObject = new Date(isoString);
+  return {
+    year: dateObject.getFullYear(),
+    month: dateObject.getMonth()+1,
+    day:dateObject?.getDate()
+  };
+
+}

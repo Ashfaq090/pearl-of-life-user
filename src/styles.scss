@@ -1,1 +1,18 @@
 /* You can add global styles to this file, and also import other style files */
+body{
+
+    .fs-14{
+        font-size: 14px;
+    }
+
+    .submit-button{
+        background: #fff;
+        border: 1px solid #C55A11;
+        color: #C55A11;
+        &:hover{
+            background: #C55A11;
+            color: #fff;
+        }
+    }
+
+}

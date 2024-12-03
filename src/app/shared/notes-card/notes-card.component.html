@@ -1,0 +1,13 @@
+<div class="row pt-4 notes" *ngIf="items && items.length">
+    <div class="col-sm-12 col-md-6 col-lg-4 pb-3" *ngFor="let item of items">
+        <div class="card notes-card" (click)="emit(item)">
+            <div class="card-body">
+                <h6 class="card-title">
+                    {{item?.heading}} <br>
+                    <small class="text-date">{{item?.note_date | date: 'd/M/y'}}</small>
+                </h6>
+                <p class="card-text fs-14 text-content">{{item?.description}}</p>
+            </div>
+        </div>
+    </div>
+</div>
