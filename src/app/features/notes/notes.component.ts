@@ -3,6 +3,7 @@ import { ADD_ITEMS_LIST } from 'src/app/constants/app.constant';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ManageNotesComponent } from './manage-notes/manage-notes.component';
 import { NotesService } from './notes.service';
+import { ConfirmationModalComponent } from 'src/app/shared/confirmation-modal/confirmation-modal.component';
 
 @Component({
   selector: 'app-notes',
@@ -36,9 +37,6 @@ export class NotesComponent implements OnInit {
   }
 
   openNotePopup(item: any){
-
-    console.log(item)
-
     // Open the modal
     const modalRef = this.ngbModalService.open(ManageNotesComponent, {
       size: 'md',
@@ -56,12 +54,41 @@ export class NotesComponent implements OnInit {
      // Handle the modal result
      modalRef.result
      .then((result) => {
-       // Push the new result to tabledata
-      //  this.tabledata.push(result);
       this.getNotes();
      })
      .catch((error) => console.log(error));
+  }
 
+  openDeleteDialog(note: any) {
+    const modalRef = this.ngbModalService.open(ConfirmationModalComponent, {
+      size: 'md',
+      backdrop: 'static',
+      keyboard: false,
+      centered: false,
+    });
+
+    modalRef.componentInstance.data = {
+      title: 'Delete Note',
+      text: 'Are you sure you want to delete this note? This action is permanent and cannot be undone'
+    }
+
+    modalRef.result
+      .then((result) => {
+        this.deleteNote(note.id);
+      })
+      .catch((error) => console.log(note));
+  }
+
+  deleteNote(note_id: string){
+    this.notesService.deleteNote(note_id).subscribe({
+      next: (response) => {
+        console.log(response);
+        this.getNotes();
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    });
   }
 
 }

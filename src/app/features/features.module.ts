@@ -18,6 +18,7 @@ import { NotesCardComponent } from '../shared/notes-card/notes-card.component';
 import { ManageNotesComponent } from './notes/manage-notes/manage-notes.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
+import { ConfirmationModalComponent } from '../shared/confirmation-modal/confirmation-modal.component';
 
 
 @NgModule({
@@ -41,7 +42,8 @@ import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
     AddItemsCardComponent,
     NotesCardComponent,
     ReactiveFormsModule,
-    NgbDatepickerModule
+    NgbDatepickerModule,
+    ConfirmationModalComponent
   ]
 })
 export class FeaturesModule { }

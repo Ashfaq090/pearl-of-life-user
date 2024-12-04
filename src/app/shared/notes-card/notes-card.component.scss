@@ -10,11 +10,30 @@
             .text-content{
                 color: #000;
             }
+            button.icon-button{
+                display: inline;
+            }
         }
         .text-date{
             color: #fff;
         }
         .text-content{
+            color: #fff;
+        }
+        button.icon-button{
+            display: none;
+        }
+    }
+    .see-more-card{
+        height: 100%;
+        cursor: pointer !important;
+        text-decoration: none;
+        background: #D9D9D9;
+        color: #000;
+        font-weight: 500;
+        padding: 20px 30px;
+        &:hover{
+            background: #C55A11;
             color: #fff;
         }
     }

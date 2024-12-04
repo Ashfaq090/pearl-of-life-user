@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ADD_ITEMS_LIST } from 'src/app/constants/app.constant';
+import { ManageNotesComponent } from '../notes/manage-notes/manage-notes.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -7,6 +9,9 @@ import { ADD_ITEMS_LIST } from 'src/app/constants/app.constant';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent {
+  constructor(
+    private readonly ngbModalService: NgbModal,
+  ){}
 
   public addCardItems: any = [
     ADD_ITEMS_LIST.MEMORIES,
@@ -17,6 +22,36 @@ export class DashboardComponent {
 
   public addComponent(event: any){
     console.log(event)
+    switch(event.component){
+      case ADD_ITEMS_LIST.NOTES.label:
+        this.addNote();
+        break;
+      default:
+        return;
+    }
+  }
+
+  addNote(){
+    // Open the modal
+    const modalRef = this.ngbModalService.open(ManageNotesComponent, {
+      size: 'md',
+      backdrop: 'static',
+      keyboard: false,
+      centered: false,
+    });
+
+    // Set the modal data
+    modalRef.componentInstance.data = {
+      name: 'Add',
+      item: null,
+    };
+
+     // Handle the modal result
+     modalRef.result
+     .then((result) => {
+      console.log(result);
+     })
+     .catch((error) => console.log(error));
   }
 
 }

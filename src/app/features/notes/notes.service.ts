@@ -21,4 +21,8 @@ export class NotesService extends BaseService {
         return id && this.put(url, payload) || this.post(url, payload);
     }
 
+    deleteNote(note_id: string): Observable<any> {
+        return this.delete(`${this.baseUrl}/notes/${note_id}`);
+    }
+
 }

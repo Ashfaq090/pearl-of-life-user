@@ -1,6 +1,8 @@
 <div class="modal-header">
     <h4 class="modal-title">{{data.name}} Note</h4>
-    <button type="button" class="btn-close" aria-label="Close" (click)="closeModal()"></button>
+    <button type="button" class="btn" aria-label="Close" (click)="closeModal()">
+        <img src="../../../../assets/icons/form/close-lg.svg">
+    </button>
 </div>
 
 <form [formGroup]="noteForm" (submit)="submit()">
@@ -9,7 +11,7 @@
         <div class="mb-3">
             <label for="heading" class="col-form-label">Title</label>
             <input type="text" placeholder="Title" class="form-control" id="heading"
-            formControlName="heading">
+                formControlName="heading">
         </div>
         <div class="mb-3">
             <label for="note_date" class="col-form-label">Date</label>

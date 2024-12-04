@@ -1,0 +1,23 @@
+.auth{
+    padding: 24px;
+    min-height: 100vh;
+    background: url(../../assets/images/auth-background.png);
+    .auth-card{
+        max-width: 576px;
+        background: #385723;
+        border-radius: 36px;
+        font-weight: 500;
+        label{
+            color: #fff;
+        }
+        .logo{
+            width: 228px;
+            padding: 8px 64px;
+            border-radius: 64px;
+            background-color: #fff;
+            img{
+                width: 100%;
+            }
+        }
+    }
+}

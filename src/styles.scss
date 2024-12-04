@@ -15,4 +15,37 @@ body{
         }
     }
 
+    .icon-button{
+        border: 1px solid #C55A11;
+        background: #C55A11;
+        &:hover{
+            background: #C55A11;
+        }
+    }
+
+    .secondary-button{
+        border: 1px solid #FFC000;
+        background: #FFC000;
+        &:hover{
+            background: #FFC000;
+            color: #fff;
+        }
+    }
+
+    .text-blue{
+        color: #1F4E79 !important;
+    }
+
+    .text-yellow{
+        color: #FFC000 !important;
+    }
+
+    .bg-yellow{
+        background: #FFC000 !important;
+    }
+
+    .text-gray{
+        color: #C7C7C7;
+    }
+
 }

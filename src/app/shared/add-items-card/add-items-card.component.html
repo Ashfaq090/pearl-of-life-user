@@ -2,7 +2,7 @@
     
     <ng-container *ngFor="let item of items">
         <a class="link-grid" (click)="emit(item?.label)">
-            <img src="../../../assets/icons/side-bar/{{item.label}}.svg">
+            <img [ngClass]="{'d-none': !item?.label}" src="../../../assets/icons/side-bar/{{item.label}}.svg">
             {{item?.text || 'TEXT'}}
         </a>
     </ng-container>
