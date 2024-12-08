@@ -19,6 +19,7 @@ import { ManageNotesComponent } from './notes/manage-notes/manage-notes.componen
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmationModalComponent } from '../shared/confirmation-modal/confirmation-modal.component';
+import { ManagePasswordComponent } from './passwords/manage-password/manage-password.component';
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import { ConfirmationModalComponent } from '../shared/confirmation-modal/confirm
     PasswordsComponent,
     PersonalInfoComponent,
     ObituaryInfoComponent,
-    ManageNotesComponent
+    ManageNotesComponent,
+    ManagePasswordComponent
   ],
   imports: [
     CommonModule,

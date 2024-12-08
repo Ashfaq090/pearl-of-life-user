@@ -46,11 +46,17 @@ export class LoginComponent implements OnInit {
       })
     ).subscribe({
       next: (response) => {
-        console.log('Login Success', response);
+        this.sharedService.showToast({
+          classname: 'success',
+          text: 'Login successful!',
+        });
         this.router.navigate(['/dashboard']);
       },
-      error: (error) => {
-        console.log('Login Failed', error);
+      error: (err) => {
+        this.sharedService.showToast({
+          classname: 'error',
+          text: err?.error?.message,
+        });
       }
     });
 

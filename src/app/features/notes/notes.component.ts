@@ -4,6 +4,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ManageNotesComponent } from './manage-notes/manage-notes.component';
 import { NotesService } from './notes.service';
 import { ConfirmationModalComponent } from 'src/app/shared/confirmation-modal/confirmation-modal.component';
+import { SharedService } from 'src/app/services/shared.service';
 
 @Component({
   selector: 'app-notes',
@@ -14,6 +15,7 @@ export class NotesComponent implements OnInit {
   constructor(
     private readonly notesService: NotesService,
     private readonly ngbModalService: NgbModal,
+    private readonly  sharedService: SharedService
   ){}
 
   public notes: any[];
@@ -30,8 +32,11 @@ export class NotesComponent implements OnInit {
       next: (response) => {
         this.notes = response.data;
       },
-      error: (error) => {
-        console.log(error);
+      error: (err) => {
+        this.sharedService.showToast({
+          classname: 'error',
+          text: err?.error?.message,
+        });
       }
     });
   }
@@ -82,11 +87,17 @@ export class NotesComponent implements OnInit {
   deleteNote(note_id: string){
     this.notesService.deleteNote(note_id).subscribe({
       next: (response) => {
-        console.log(response);
+        this.sharedService.showToast({
+          classname: 'error',
+          text: response?.message,
+        });
         this.getNotes();
       },
-      error: (error) => {
-        console.log(error);
+      error: (err) => {
+        this.sharedService.showToast({
+          classname: 'error',
+          text: err?.error?.message,
+        });
       }
     });
   }

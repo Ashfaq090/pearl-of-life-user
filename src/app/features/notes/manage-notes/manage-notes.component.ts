@@ -3,6 +3,7 @@ import { FormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
 import { NgbActiveModal, NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
 import { NotesService } from '../notes.service';
 import { dateToIsoString, isoStringToDateObj } from 'src/app/constants/app.constant';
+import { SharedService } from 'src/app/services/shared.service';
 
 @Component({
   selector: 'app-manage-notes',
@@ -17,7 +18,8 @@ export class ManageNotesComponent implements OnInit {
   constructor(
     private readonly activeModal: NgbActiveModal,
     private readonly formBuilder: UntypedFormBuilder,
-    private readonly notesService: NotesService
+    private readonly notesService: NotesService,
+    private readonly sharedService: SharedService
   ){}
 
   ngOnInit(): void {
@@ -53,11 +55,17 @@ export class ManageNotesComponent implements OnInit {
         note_date: dateToIsoString(form.note_date)
       }, this.data?.item?.id || null).subscribe({
         next: (response) => {
-          console.log('Success', response);
+          this.sharedService.showToast({
+            classname: 'success',
+            text: response?.message,
+          });
           this.closeModal();
         },
-        error: (error) => {
-          console.log('Add Update Failed', error);
+        error: (err) => {
+          this.sharedService.showToast({
+            classname: 'error',
+            text: err?.error?.message,
+          });
         }
       });
     }

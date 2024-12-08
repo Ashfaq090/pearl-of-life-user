@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ADD_ITEMS_LIST } from 'src/app/constants/app.constant';
 import { ManageNotesComponent } from '../notes/manage-notes/manage-notes.component';
+import { ManagePasswordComponent } from '../passwords/manage-password/manage-password.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -26,9 +27,35 @@ export class DashboardComponent {
       case ADD_ITEMS_LIST.NOTES.label:
         this.addNote();
         break;
+      case ADD_ITEMS_LIST.PASSWORDS.label:
+        this.addPassword();
+        break;
       default:
         return;
     }
+  }
+
+  addPassword(){
+    // Open the modal
+    const modalRef = this.ngbModalService.open(ManagePasswordComponent, {
+      size: 'md',
+      backdrop: 'static',
+      keyboard: false,
+      centered: false,
+    });
+
+    // Set the modal data
+    modalRef.componentInstance.data = {
+      name: 'Add',
+      item: null,
+    };
+
+     // Handle the modal result
+     modalRef.result
+     .then((result) => {
+      console.log(result);
+     })
+     .catch((error) => console.log(error));
   }
 
   addNote(){

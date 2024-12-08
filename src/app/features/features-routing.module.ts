@@ -8,6 +8,7 @@ import { NotesComponent } from './notes/notes.component';
 import { AssetsComponent } from './assets/assets.component';
 import { PasswordsComponent } from './passwords/passwords.component';
 import { ObituaryInfoComponent } from './obituary-info/obituary-info.component';
+import { PersonalInfoComponent } from './personal-info/personal-info.component';
 
 const routes: Routes = [
   {
@@ -45,7 +46,7 @@ const routes: Routes = [
       },
       {
         path: 'personal-info',
-        component: PasswordsComponent
+        component: PersonalInfoComponent
       },
       {
         path: 'obituary-info',

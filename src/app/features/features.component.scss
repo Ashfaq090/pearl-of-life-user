@@ -1,6 +1,7 @@
 .sidebar {
     min-width: 300px;
-    min-height: 400px;
+    min-height: fit-content;
+    height: 100vh;
     background: #385723;
     transition: all 0.3s ease-in-out;
 }
