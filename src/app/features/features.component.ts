@@ -28,7 +28,7 @@ export class FeaturesComponent implements OnInit {
 
   updateActiveNav(activeItemLink: string) {
     this.activeItemLink = activeItemLink;
-    this.activeItem = this.navList.find((x: any) => x.link == activeItemLink).name;
+    this.activeItem = this.navList.find((x: any) => x.link == activeItemLink)?.name;
   }
 
   toggleSidebar() {

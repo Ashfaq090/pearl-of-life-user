@@ -1,4 +1,7 @@
 .sidebar {
+    position: fixed; /* Makes the element stay fixed in place */
+    top: 0; /* Aligns to the top of the viewport */
+    left: 0;
     min-width: 300px;
     min-height: fit-content;
     height: 100vh;

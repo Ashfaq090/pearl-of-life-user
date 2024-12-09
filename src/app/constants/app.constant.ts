@@ -76,5 +76,14 @@ export const isoStringToDateObj = (isoString: string) => {
     month: dateObject.getMonth()+1,
     day:dateObject?.getDate()
   };
+}
 
+export const objectToQueryParams = (obj: any) => {
+  let queryArray = [];
+  for (const key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      queryArray.push(`${key}=${obj[key]}`)
+    }
+  }
+  return queryArray.join('&');
 }

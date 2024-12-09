@@ -16,6 +16,7 @@ export class NotesCardComponent implements OnChanges {
   public itemsList: any[] = [];
   @Output() readonly editNote = new EventEmitter<any>();
   @Output() readonly deleteNote = new EventEmitter<any>();
+  @Output() readonly seeMore = new EventEmitter<any>();
 
   ngOnChanges(simpleChange: SimpleChanges): void{
     
@@ -30,6 +31,10 @@ export class NotesCardComponent implements OnChanges {
 
   delete(note: string){
     this.deleteNote.emit(note)
+  }
+
+  redirectToYear(year: string){
+    this.seeMore.emit(year)
   }
 
 }

@@ -52,6 +52,13 @@ body{
         cursor: pointer !important;
     }
 
+    .text-link{
+        color: #385723;
+        &:hover{
+            color: #C55A11;
+        }
+    }
+
     .toast {
         z-index: 1200;
         text-align: left;

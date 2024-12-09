@@ -1,46 +1,42 @@
 import { Component, OnInit } from '@angular/core';
-import { ADD_ITEMS_LIST, objectToQueryParams } from 'src/app/constants/app.constant';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ManageNotesComponent } from './manage-notes/manage-notes.component';
-import { NotesService } from './notes.service';
-import { ConfirmationModalComponent } from 'src/app/shared/confirmation-modal/confirmation-modal.component';
+import { ActivatedRoute } from '@angular/router';
+import { filter, Subject, takeUntil, tap } from 'rxjs';
+import { NotesService } from '../notes.service';
 import { SharedService } from 'src/app/services/shared.service';
-import { Router } from '@angular/router';
+import { ConfirmationModalComponent } from 'src/app/shared/confirmation-modal/confirmation-modal.component';
+import { ManageNotesComponent } from '../manage-notes/manage-notes.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  selector: 'app-notes',
-  templateUrl: './notes.component.html',
-  styleUrls: ['./notes.component.scss']
+  selector: 'app-notes-by-year',
+  templateUrl: './notes-by-year.component.html',
+  styleUrls: ['./notes-by-year.component.scss']
 })
-export class NotesComponent implements OnInit {
+export class NotesByYearComponent implements OnInit {
+  
+  public notesList: any[];
+  public notesListByMonths: any[] = [];
+  public year: any;
+
   constructor(
+    private readonly activatedRoute: ActivatedRoute,
     private readonly notesService: NotesService,
     private readonly ngbModalService: NgbModal,
-    private readonly  sharedService: SharedService,
-    private readonly router: Router
+    private readonly sharedService: SharedService 
   ){}
 
-  public notes: any[] = [];
-  public notesListByYear: any[] = [];
-  public addCardItems: any = [
-    ADD_ITEMS_LIST.NOTES
-  ]
-  private pageOptions: any = {
-    pageSize: 20,
-    page: 1,
-    pagination: false
-  }
-  
   ngOnInit(): void {
-    this.getNotes();
+      this.activatedRoute.paramMap.subscribe((params) => {
+        this.year = params.get('year'); // '123'
+        this.getNotesByYear(this.year||'')
+      });
   }
 
-  getNotes(){
-    const queryParams = objectToQueryParams(this.pageOptions);
-    this.notesService.getNotes(queryParams).subscribe({
+  getNotesByYear(year: string){
+    this.notesService.getNotes(`year=${year}`).subscribe({
       next: (response) => {
-        this.notes.push(...response.data);
-        this.arrangeNotesByYear(response.data);
+        this.notesList = response.data;
+        this.arrangeListByMonths(response.data);
       },
       error: (err) => {
         this.sharedService.showToast({
@@ -51,15 +47,14 @@ export class NotesComponent implements OnInit {
     });
   }
 
-  arrangeNotesByYear(notes: any){
-    let startYear = new Date(notes[0].note_date).getFullYear();
-    let endYear = new Date(notes[notes.length-1].note_date).getFullYear();
-    while(startYear >= endYear){
-      const list = this.notes.filter(x => startYear == (new Date(x.note_date).getFullYear()));
+  arrangeListByMonths(list: any[]){
+    let i = 12;
+    while(i > 0){
+      const list = this.notesList.filter(x => i == (new Date(x.note_date).getMonth() + 1));
       if(list.length){
-        this.notesListByYear.push(list);
+        this.notesListByMonths.push(list);
       }
-      startYear--;
+      i--;
     }
   }
 
@@ -81,7 +76,7 @@ export class NotesComponent implements OnInit {
      // Handle the modal result
      modalRef.result
      .then((result) => {
-      this.getNotes();
+      this.getNotesByYear(this.year);
      })
      .catch((error) => console.log(error));
   }
@@ -113,7 +108,7 @@ export class NotesComponent implements OnInit {
           classname: 'error',
           text: response?.message,
         });
-        this.getNotes();
+        this.getNotesByYear(this.year);
       },
       error: (err) => {
         this.sharedService.showToast({
@@ -122,10 +117,6 @@ export class NotesComponent implements OnInit {
         });
       }
     });
-  }
-
-  seeMore(year: any){
-    this.router.navigate([`/notes/${year}`])
   }
 
 }

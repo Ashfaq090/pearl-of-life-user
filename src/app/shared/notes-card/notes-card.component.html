@@ -22,7 +22,7 @@
     </div>
     <div class="col-sm-12 col-md-6 col-lg-4 pb-3" *ngIf="!showAll && items.length > 6">
         <div class="card see-more-card">
-            <div class="card-body text-center">
+            <div class="card-body text-center" (click)="redirectToYear('2024')">
                 See More
             </div>
         </div>
