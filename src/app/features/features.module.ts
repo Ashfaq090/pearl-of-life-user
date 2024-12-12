@@ -21,6 +21,7 @@ import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmationModalComponent } from '../shared/confirmation-modal/confirmation-modal.component';
 import { ManagePasswordComponent } from './passwords/manage-password/manage-password.component';
 import { NotesByYearComponent } from './notes/notes-by-year/notes-by-year.component';
+import { ManageKeyHoldersComponent } from './key-holders/manage-key-holders/manage-key-holders.component';
 
 
 @NgModule({
@@ -36,7 +37,8 @@ import { NotesByYearComponent } from './notes/notes-by-year/notes-by-year.compon
     ObituaryInfoComponent,
     ManageNotesComponent,
     ManagePasswordComponent,
-    NotesByYearComponent
+    NotesByYearComponent,
+    ManageKeyHoldersComponent
   ],
   imports: [
     CommonModule,

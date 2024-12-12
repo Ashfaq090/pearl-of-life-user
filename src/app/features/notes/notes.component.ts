@@ -110,7 +110,7 @@ export class NotesComponent implements OnInit {
     this.notesService.deleteNote(note_id).subscribe({
       next: (response) => {
         this.sharedService.showToast({
-          classname: 'error',
+          classname: 'success',
           text: response?.message,
         });
         this.getNotes();

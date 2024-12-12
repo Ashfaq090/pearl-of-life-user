@@ -105,7 +105,7 @@ export class NotesByYearComponent implements OnInit {
     this.notesService.deleteNote(note_id).subscribe({
       next: (response) => {
         this.sharedService.showToast({
-          classname: 'error',
+          classname: 'success',
           text: response?.message,
         });
         this.getNotesByYear(this.year);

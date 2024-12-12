@@ -64,6 +64,10 @@ export const ADD_ITEMS_LIST = {
   }
 }
 
+export const RELATION_LIST = [
+  'Father', 'Mother', 'Son', 'Daughter', 'Husband', 'Wife', 'Brother', 'Sister', 'Friend', 'Cousin' 
+]
+
 export const dateToIsoString = (dateObject: any) => {
   const date = new Date(`${dateObject?.year}-${dateObject?.month}-${dateObject?.day}`);
   return date.toISOString() || null;

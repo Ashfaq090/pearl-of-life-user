@@ -55,7 +55,10 @@ export class PasswordsComponent implements OnInit {
   copyPassword(password: string){
     navigator.clipboard.writeText(password)
     .then(() => {
-      console.log('Copied to Clipboard')
+      this.sharedService.showToast({
+        classname: 'success',
+        text: 'Copied to clipboard',
+      });
     })
   }
 
@@ -115,7 +118,7 @@ export class PasswordsComponent implements OnInit {
       },
       error: (err) => {
         this.sharedService.showToast({
-          classname: 'success',
+          classname: 'error',
           text: err?.error?.message,
         });
       }

@@ -30,6 +30,10 @@ const routes: Routes = [
         component: KeyHoldersComponent
       },
       {
+        path: 'key-holders/:id',
+        component: KeyHoldersComponent
+      },
+      {
         path: 'memories',
         component: MemoriesComponent
       },

@@ -1,1 +1,21 @@
-<p>key-holders works!</p>
+<div class="container key-holders p-0">
+
+    <!-- <app-add-items-card [items]="addCardItems" (label)="openNotePopup($event)"></app-add-items-card> -->
+
+    <div class="row m-0">
+        <div class="col-6 col-md-4 col-lg-3 col-xl-2 p-3 pointer" *ngFor="let item of keyholders">
+    
+            <div class="key-holder-pic">
+                <img *ngIf="item?.id%2 == 0" src="../../../assets/images/mask-group.png">
+            </div>
+            <h6>
+                <a class="text-decoration-none text-link" [routerLink]="['/key-holders',item?.id]">{{item?.first_name}} {{item?.last_name}}</a>
+            </h6>
+    
+        </div>
+        <div class="col-6 col-md-4 col-lg-3 col-xl-2 p-3 bg-yellow text-center pointer" (click)="openNotePopup($event)">
+            +
+        </div>
+    </div>
+    
+</div>

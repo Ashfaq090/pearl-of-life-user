@@ -98,7 +98,7 @@ export class PersonalInfoComponent implements OnInit {
       }).subscribe({
         next: (response) => {
           this.sharedService.showToast({
-            classname: 'error',
+            classname: 'success',
             text: response?.message,
           });
           this.personalDetails = response.data;
@@ -125,7 +125,7 @@ export class PersonalInfoComponent implements OnInit {
         const objectURL = URL.createObjectURL(blob);
         this.imageUrl = this.sanitizer.bypassSecurityTrustUrl(objectURL);
         this.sharedService.showToast({
-          classname: 'error',
+          classname: 'success',
           text: 'Profile picture successfully uploaded',
         });
       },
