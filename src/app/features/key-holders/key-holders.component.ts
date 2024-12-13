@@ -16,7 +16,7 @@ export class KeyHoldersComponent implements OnInit {
   public keyholders: any[] = [];
 
   constructor(
-    private readonly notesService: KeyHolderService,
+    private readonly keyHolderService: KeyHolderService,
     private readonly ngbModalService: NgbModal,
     private readonly  sharedService: SharedService,
     private readonly router: Router
@@ -31,48 +31,18 @@ export class KeyHoldersComponent implements OnInit {
   }
 
   getKeyHolders(){
-    this.keyholders = [
-      {
-        first_name: 'Ashfaq',
-        last_name: 'Ahmed',
-        id: 1
+    // const queryParams = objectToQueryParams(this.pageOptions);
+    this.keyHolderService.getKeyHolders().subscribe({
+      next: (response) => {
+        this.keyholders = response.data;
       },
-      {
-        first_name: 'Ashfaq',
-        last_name: 'Ahmed',
-        id: 2
-      },
-      {
-        first_name: 'Ashfaq',
-        last_name: 'Ahmed',
-        id: 3
-      },
-      {
-        first_name: 'Ashfaq',
-        last_name: 'Ahmed',
-        id: 4
-      },
-      {
-        first_name: 'Ashfaq',
-        last_name: 'Ahmed',
-        id: 5
-      },
-      {
-        first_name: 'Ashfaq',
-        last_name: 'Ahmed',
-        id: 6
-      },
-      {
-        first_name: 'Ashfaq',
-        last_name: 'Ahmed',
-        id: 7
-      },
-      {
-        first_name: 'Ashfaq',
-        last_name: 'Ahmed',
-        id: 8
+      error: (err) => {
+        this.sharedService.showToast({
+          classname: 'error',
+          text: err?.error?.message,
+        });
       }
-    ]
+    });
   }
 
   openNotePopup(item: any){

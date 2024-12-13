@@ -39,7 +39,7 @@ export class NotesComponent implements OnInit {
     const queryParams = objectToQueryParams(this.pageOptions);
     this.notesService.getNotes(queryParams).subscribe({
       next: (response) => {
-        this.notes.push(...response.data);
+        this.notes = response.data;
         this.arrangeNotesByYear(response.data);
       },
       error: (err) => {
