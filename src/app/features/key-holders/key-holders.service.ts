@@ -12,8 +12,8 @@ export class KeyHolderService extends BaseService {
         return this.get(`${this.baseUrl}/key-holders?${optionalParams ? optionalParams : ''}`);
     }
     
-    getKeyHolderById(id: string, optionalParams?: any): Observable<any> {
-        return this.get(`${this.baseUrl}/key-holders/${id}`, optionalParams);
+    getKeyHolderById(id: string): Observable<any> {
+        return this.get(`${this.baseUrl}/key-holders/${id}`);
     }
 
     // addUpdateKeyHolder(payload: any, id?: string): Observable<any> {

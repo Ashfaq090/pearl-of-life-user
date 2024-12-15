@@ -4,7 +4,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { SharedService } from 'src/app/services/shared.service';
 import { KeyHolderService } from './key-holders.service';
 import { ManageKeyHoldersComponent } from './manage-key-holders/manage-key-holders.component';
-import { ADD_ITEMS_LIST } from 'src/app/constants/app.constant';
+import { BE_URL } from 'src/app/constants/app.constant';
 
 @Component({
   selector: 'app-key-holders',
@@ -19,7 +19,6 @@ export class KeyHoldersComponent implements OnInit {
     private readonly keyHolderService: KeyHolderService,
     private readonly ngbModalService: NgbModal,
     private readonly  sharedService: SharedService,
-    private readonly router: Router
   ){}
 
   // public addCardItems: any = [
@@ -31,10 +30,16 @@ export class KeyHoldersComponent implements OnInit {
   }
 
   getKeyHolders(){
-    // const queryParams = objectToQueryParams(this.pageOptions);
     this.keyHolderService.getKeyHolders().subscribe({
       next: (response) => {
-        this.keyholders = response.data;
+        if(response?.data && response?.data.length){
+          this.keyholders = response.data.map((item: any) => {
+            return {
+              ...item,
+              image_path: BE_URL + item.image_path.slice(1) 
+            }
+          })
+        }
       },
       error: (err) => {
         this.sharedService.showToast({

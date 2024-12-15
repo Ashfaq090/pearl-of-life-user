@@ -22,6 +22,7 @@ import { ConfirmationModalComponent } from '../shared/confirmation-modal/confirm
 import { ManagePasswordComponent } from './passwords/manage-password/manage-password.component';
 import { NotesByYearComponent } from './notes/notes-by-year/notes-by-year.component';
 import { ManageKeyHoldersComponent } from './key-holders/manage-key-holders/manage-key-holders.component';
+import { KeyHolderDetailsComponent } from './key-holders/key-holder-details/key-holder-details.component';
 
 
 @NgModule({
@@ -38,7 +39,8 @@ import { ManageKeyHoldersComponent } from './key-holders/manage-key-holders/mana
     ManageNotesComponent,
     ManagePasswordComponent,
     NotesByYearComponent,
-    ManageKeyHoldersComponent
+    ManageKeyHoldersComponent,
+    KeyHolderDetailsComponent
   ],
   imports: [
     CommonModule,

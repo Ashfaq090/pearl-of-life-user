@@ -5,13 +5,14 @@
         border-radius: 20px;
         overflow: hidden;
         margin-bottom: 8px;
-        background: url(../../../assets/icons/key-holder.svg);
+        background: url(../../../assets/icons/person.svg);
+        background-color: #FFC000;
         background-repeat: no-repeat;
-        background-size: cover;
+        background-size: auto;
         background-position: center;
         &:hover{
             background-color: #fff;
-            background: url(../../../assets/icons/key-holder-hover.svg);
+            background: url(../../../assets/icons/person-hover.svg);
             background-repeat: no-repeat;
             background-size: auto;
             background-position: center;
@@ -23,6 +24,19 @@
         img{
             transition: transform 0.3s ease;
             width: 100%;
+        }
+    }
+    .add-keyholder{
+        background: url(../../../assets/icons/add-keyholder.svg);
+        background-color: #FFC000;
+        background-repeat: no-repeat;
+        background-size: auto;
+        background-position: center;
+        &:hover{
+            background: url(../../../assets/icons/add-keyholder-hover.svg);
+            background-repeat: no-repeat;
+            background-size: auto;
+            background-position: center;
         }
     }
 }

@@ -27,6 +27,15 @@ export class FileService {
     return this.http.get(`${this.apiUrl}/list`);
   }
 
+  // List all files (optional)
+  getFilesByPath(controller_path: string, paths: any[]): Observable<any> {
+    const params = JSON.stringify(paths);
+    console.log(params)
+    // const formData = new FormData();
+    // formData.append('urls', params);
+    return this.http.get(`${this.apiUrl}/${controller_path}?paths=${params}`);
+  }
+
   // Error handler
   private handleError(error: HttpErrorResponse) {
     let errorMessage = 'Unknown error occurred!';
