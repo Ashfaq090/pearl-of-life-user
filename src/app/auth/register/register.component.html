@@ -1,0 +1,48 @@
+<form [formGroup]="registerForm" class="registerForm" (submit)="register()">
+
+    <div class="my-2">
+        <label for="firstName" class="col-form-label text-white">First Name</label>
+        <input type="text" placeholder="First Name" class="form-control" id="firstName"
+        formControlName="firstName">
+    </div>
+    
+    <div class="my-2">
+        <label for="text" class="col-form-label text-white">Last Name</label>
+        <input type="text" placeholder="Last Name" class="form-control" id="lastName"
+        formControlName="lastName">
+    </div>
+    
+    <div class="my-2">
+        <label for="email" class="col-form-label text-white">Email</label>
+        <input type="email" placeholder="Email" class="form-control" id="email"
+        formControlName="email">
+    </div>
+    
+    <!-- <div class="my-2">
+        <label for="phone" class="col-form-label text-white">Phone Number</label>
+        <input type="text" placeholder="Phone Number" class="form-control" id="phone"
+        formControlName="phone">
+    </div> -->
+    
+    <div class="my-2">
+        <label for="password" class="col-form-label text-white">Password</label>
+        <input type="password" placeholder="Password" class="form-control" id="password"
+        formControlName="password">
+    </div>
+    
+    <div class="my-2">
+        <label for="confirmPassword" class="col-form-label text-white">Confirm Password</label>
+        <input type="password" placeholder="Confirm Password" class="form-control" id="confirmPassword"
+        formControlName="confirmPassword">
+    </div>
+    
+    <div class="mt-4 mb-3">
+        <button type="submit" class="btn secondary-button w-100">Register</button>
+    </div>
+    
+    <div class="mt-4 text-center text-white">
+        Already have an Account?
+        <a class="text-yellow text-decoration-none" [routerLink]="['/auth/login']">Sign in</a>
+    </div>
+
+</form>

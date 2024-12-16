@@ -20,4 +20,9 @@ export class AuthService {
     });
   }
 
+  // Method to call the login API
+  register(register: any): Observable<any> {
+    return this.http.post(`${this.baseUrl}${this.auth}/register`, register);
+  }
+
 }

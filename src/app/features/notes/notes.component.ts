@@ -40,6 +40,7 @@ export class NotesComponent implements OnInit {
     this.notesService.getNotes(queryParams).subscribe({
       next: (response) => {
         this.notes = response.data;
+        if(this.notes && this.notes.length)
         this.arrangeNotesByYear(response.data);
       },
       error: (err) => {
