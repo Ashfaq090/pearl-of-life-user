@@ -36,7 +36,7 @@ export class KeyHoldersComponent implements OnInit {
           this.keyholders = response.data.map((item: any) => {
             return {
               ...item,
-              image_path: BE_URL + item.image_path.slice(1) 
+              image_path: BE_URL + item?.image_path?.slice(1) 
             }
           })
         }
