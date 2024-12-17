@@ -1,12 +1,10 @@
 <div class="container key-holders p-0">
 
-    <!-- <app-add-items-card [items]="addCardItems" (label)="openNotePopup($event)"></app-add-items-card> -->
-
     <div class="row m-0">
         <div class="col-6 col-md-4 col-lg-3 col-xl-2 p-3 pointer" *ngFor="let item of keyholders">
     
             <div class="key-holder-pic">
-                <img *ngIf="!item?.image_path" src="../../../assets/images/mask-group.png">
+                <!-- <img *ngIf="!item?.image_path" src="../../../assets/images/mask-group.png"> -->
                 <img *ngIf="item?.image_path" [src]="item?.image_path">
             </div>
             <h6>

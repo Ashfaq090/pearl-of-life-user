@@ -4,6 +4,7 @@ import { KeyHolderService } from '../key-holders.service';
 import { SharedService } from 'src/app/services/shared.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmationModalComponent } from 'src/app/shared/confirmation-modal/confirmation-modal.component';
+import { BE_URL } from 'src/app/constants/app.constant';
 
 @Component({
   selector: 'app-key-holder-details',
@@ -13,6 +14,7 @@ import { ConfirmationModalComponent } from 'src/app/shared/confirmation-modal/co
 export class KeyHolderDetailsComponent implements OnInit {
 
   public keyHolder: any;
+  public imageUrl: string = '';
 
   constructor(
     private readonly keyHolderService: KeyHolderService,
@@ -29,10 +31,15 @@ export class KeyHolderDetailsComponent implements OnInit {
     });
   }
 
+  uploadFile(file: any){
+
+  }
+
   getKeyHolderById(id: any){
     this.keyHolderService.getKeyHolderById(id).subscribe({
       next: (response) => {
         this.keyHolder = response;
+        this.imageUrl = response?.image_path ? BE_URL + response?.image_path?.slice(1) : '';
       },
       error: (err) => {
         this.sharedService.showToast({

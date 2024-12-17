@@ -53,6 +53,7 @@ export class NotesComponent implements OnInit {
   }
 
   arrangeNotesByYear(notes: any){
+    this.notesListByYear = [];
     let startYear = new Date(notes[0].note_date).getFullYear();
     let endYear = new Date(notes[notes.length-1].note_date).getFullYear();
     while(startYear >= endYear){
