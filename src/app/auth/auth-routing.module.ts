@@ -5,6 +5,7 @@ import { LoginComponent } from './login/login.component';
 import { ForgetPasswordComponent } from './forget-password/forget-password.component';
 import { RegisterComponent } from './register/register.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { RegisterKeyholderComponent } from './register-keyholder/register-keyholder.component';
 
 const routes: Routes = [
     {
@@ -33,6 +34,10 @@ const routes: Routes = [
                 component: ResetPasswordComponent
             },
             {
+                path: 'keyholder/:tokenURL',
+                component: RegisterKeyholderComponent
+            },
+            {
                 path: '**',
                 redirectTo: 'login'
             },
@@ -41,7 +46,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+    imports: [RouterModule.forChild(routes)],
+    exports: [RouterModule]
 })
 export class AuthRoutingModule { }

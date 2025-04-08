@@ -19,12 +19,12 @@ export class PersonalInfoComponent implements OnInit {
     private readonly fileService: FileService,
     private readonly sanitizer: DomSanitizer,
     private readonly sharedService: SharedService
-  ){}
+  ) { }
 
   public imageUrl: any;
   public personalInfoForm: FormGroup;
   private personalDetails: any;
-  public showPassword: boolean= false;
+  public showPassword: boolean = false;
 
   ngOnInit(): void {
     this.personalInfoForm = this.formBuilder.group({
@@ -41,7 +41,7 @@ export class PersonalInfoComponent implements OnInit {
     this.getProfilePic();
   }
 
-  getPresonalInfo(){
+  getPresonalInfo() {
     this.personalInfoService.getPersonalInfo().subscribe({
       next: (res) => {
         this.personalDetails = res;
@@ -54,15 +54,15 @@ export class PersonalInfoComponent implements OnInit {
         });
       }
     });
-  }  
+  }
 
-  patchForm(){
-    this.personalDetails.date_of_birth = isoStringToDateObj(this.personalDetails.date_of_birth); 
+  patchForm() {
+    this.personalDetails.date_of_birth = isoStringToDateObj(this.personalDetails.date_of_birth);
     this.personalInfoForm.patchValue(this.personalDetails);
     this.personalInfoForm.updateValueAndValidity();
   }
 
-  getProfilePic(){
+  getProfilePic() {
     const path = 'personal-info/profile-pic';
     this.fileService.getFile(path).subscribe({
       next: (blob) => {
@@ -79,12 +79,12 @@ export class PersonalInfoComponent implements OnInit {
     });
   }
 
-  submit(){
+  submit() {
     console.log(this.personalInfoForm);
-    if(this.personalInfoForm.invalid){
+    if (this.personalInfoForm.invalid) {
       console.log('Form invalid');
       return;
-    } else{
+    } else {
       const form = this.personalInfoForm.value;
       this.personalInfoService.update({
         first_name: form.first_name,
@@ -114,13 +114,13 @@ export class PersonalInfoComponent implements OnInit {
     }
   }
 
-  cancel(){
+  cancel() {
     this.personalInfoForm.patchValue(this.personalDetails);
   }
 
-  uploadFile(file: any){
+  uploadFile(file: any) {
     const path = 'personal-info/upload-profile-pic';
-    this.fileService.uploadFile(path,file[0]).subscribe({
+    this.fileService.uploadFile(path, file[0]).subscribe({
       next: (blob) => {
         const objectURL = URL.createObjectURL(blob);
         this.imageUrl = this.sanitizer.bypassSecurityTrustUrl(objectURL);
@@ -136,6 +136,10 @@ export class PersonalInfoComponent implements OnInit {
         });
       }
     });
+  }
+
+  upgradePlan() {
+    
   }
 
 }

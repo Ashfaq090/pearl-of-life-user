@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
@@ -9,7 +9,7 @@ import { SharedService } from 'src/app/services/shared.service';
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss']
 })
-export class RegisterComponent {
+export class RegisterComponent implements OnInit {
 
   public registerForm: FormGroup;
 
@@ -18,7 +18,7 @@ export class RegisterComponent {
     private readonly authService: AuthService,
     private readonly router: Router,
     private readonly sharedService: SharedService
-  ){}
+  ) { }
 
   ngOnInit(): void {
     this.registerForm = this.formBuilder.group({
@@ -30,8 +30,8 @@ export class RegisterComponent {
     });
   }
 
-  register(){
-    if(this.registerForm.invalid){
+  register() {
+    if (this.registerForm.invalid) {
       console.log(this.registerForm.value)
       return;
     }

@@ -32,14 +32,14 @@ export const SIDE_NAVIGATION = [
     link: '/passwords'
   },
   {
-    name: 'Personal Info',
-    component: 'personal-info',
-    link: '/personal-info'
-  },
-  {
     name: 'Obituary Info',
     component: 'obituary-info',
     link: '/obituary-info'
+  },
+  {
+    name: 'Personal Info',
+    component: 'personal-info',
+    link: '/personal-info'
   }
 ];
 
@@ -67,7 +67,7 @@ export const ADD_ITEMS_LIST = {
 }
 
 export const RELATION_LIST = [
-  'Father', 'Mother', 'Son', 'Daughter', 'Husband', 'Wife', 'Brother', 'Sister', 'Friend', 'Cousin' 
+  'Father', 'Mother', 'Son', 'Daughter', 'Husband', 'Wife', 'Brother', 'Sister', 'Friend', 'Cousin'
 ]
 
 export const dateToIsoString = (dateObject: any) => {
@@ -79,8 +79,8 @@ export const isoStringToDateObj = (isoString: string) => {
   const dateObject = new Date(isoString);
   return {
     year: dateObject.getFullYear(),
-    month: dateObject.getMonth()+1,
-    day:dateObject?.getDate()
+    month: dateObject.getMonth() + 1,
+    day: dateObject?.getDate()
   };
 }
 
