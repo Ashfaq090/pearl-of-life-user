@@ -15,27 +15,28 @@ export class KeyHolderDetailsComponent implements OnInit {
 
   public keyHolder: any;
   public imageUrl: string = '';
+  public isKeyHolder: boolean = this.sharedService.isKeyHolder();
 
   constructor(
     private readonly keyHolderService: KeyHolderService,
     private readonly activatedRoute: ActivatedRoute,
-    private readonly  sharedService: SharedService,
+    private readonly sharedService: SharedService,
     private readonly ngbModalService: NgbModal,
     private readonly router: Router
-  ){}
+  ) { }
 
   ngOnInit(): void {
     this.activatedRoute.paramMap.subscribe((params) => {
-      if(params.get('id'))
-      this.getKeyHolderById(params.get('id'));
+      if (params.get('id'))
+        this.getKeyHolderById(params.get('id'));
     });
   }
 
-  uploadFile(file: any){
+  uploadFile(file: any) {
 
   }
 
-  getKeyHolderById(id: any){
+  getKeyHolderById(id: any) {
     this.keyHolderService.getKeyHolderById(id).subscribe({
       next: (response) => {
         this.keyHolder = response;
@@ -51,41 +52,41 @@ export class KeyHolderDetailsComponent implements OnInit {
   }
 
   openKeyHolderDialog() {
-      const modalRef = this.ngbModalService.open(ConfirmationModalComponent, {
-        size: 'md',
-        backdrop: 'static',
-        keyboard: false,
-        centered: false,
-      });
-  
-      modalRef.componentInstance.data = {
-        title: 'Delete Key Holder',
-        text: 'Are you sure you want to delete this key Holder? This action is permanent and cannot be undone'
+    const modalRef = this.ngbModalService.open(ConfirmationModalComponent, {
+      size: 'md',
+      backdrop: 'static',
+      keyboard: false,
+      centered: false,
+    });
+
+    modalRef.componentInstance.data = {
+      title: 'Delete Key Holder',
+      text: 'Are you sure you want to delete this key Holder? This action is permanent and cannot be undone'
+    }
+
+    modalRef.result
+      .then((result) => {
+        this.deleteKeyHolder();
+      })
+      .catch((error) => console.log(error));
+  }
+
+  deleteKeyHolder() {
+    this.keyHolderService.deleteKeyHolder(this.keyHolder.id).subscribe({
+      next: (response) => {
+        this.sharedService.showToast({
+          classname: 'success',
+          text: response?.message,
+        });
+        this.router.navigate(['/key-holders']);
+      },
+      error: (err) => {
+        this.sharedService.showToast({
+          classname: 'error',
+          text: err?.error?.message,
+        });
       }
-  
-      modalRef.result
-        .then((result) => {
-          this.deleteKeyHolder();
-        }) 
-        .catch((error) => console.log(error));
-    }
-  
-    deleteKeyHolder(){
-      this.keyHolderService.deleteKeyHolder(this.keyHolder.id).subscribe({
-        next: (response) => {
-          this.sharedService.showToast({
-            classname: 'success',
-            text: response?.message,
-          });
-          this.router.navigate(['/key-holders']);
-        },
-        error: (err) => {
-          this.sharedService.showToast({
-            classname: 'error',
-            text: err?.error?.message,
-          });
-        }
-      });
-    }
+    });
+  }
 
 }

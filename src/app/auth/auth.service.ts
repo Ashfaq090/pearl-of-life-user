@@ -29,8 +29,10 @@ export class AuthService {
     return this.http.get(`${this.baseUrl}${this.auth}/keyholder/${tokenURL}`);
   }
 
-  loginKeyHolder(reqObj: any) {
-    return this.http.post(`${this.baseUrl}${this.auth}/keyholder`, reqObj);
+  loginKeyHolder(reqObj: any): Observable<any> {
+    return this.http.post(`${this.baseUrl}${this.auth}/keyholder`, reqObj, {
+      observe: 'response',
+    });
   }
 
 }

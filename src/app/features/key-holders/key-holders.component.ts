@@ -14,25 +14,26 @@ import { BE_URL } from 'src/app/constants/app.constant';
 export class KeyHoldersComponent implements OnInit {
 
   public keyholders: any[] = [];
+  public isKeyHolder: boolean = this.sharedService.isKeyHolder();
 
   constructor(
     private readonly keyHolderService: KeyHolderService,
     private readonly ngbModalService: NgbModal,
-    private readonly  sharedService: SharedService,
-  ){}
+    private readonly sharedService: SharedService,
+  ) { }
 
   // public addCardItems: any = [
   //   ADD_ITEMS_LIST.KEY_HOLDERS
   // ]
 
-  ngOnInit(): void{
-    this.getKeyHolders()
+  ngOnInit(): void {
+    this.getKeyHolders();
   }
 
-  getKeyHolders(){
+  getKeyHolders() {
     this.keyHolderService.getKeyHolders().subscribe({
       next: (response) => {
-        if(response?.data && response?.data.length){
+        if (response?.data && response?.data.length) {
           this.keyholders = response.data.map((item: any) => {
             return {
               ...item,
@@ -50,7 +51,7 @@ export class KeyHoldersComponent implements OnInit {
     });
   }
 
-  openNotePopup(item: any){
+  openKeyHolderPopup(item: any) {
     // Open the modal
     const modalRef = this.ngbModalService.open(ManageKeyHoldersComponent, {
       size: 'lg',
@@ -67,10 +68,10 @@ export class KeyHoldersComponent implements OnInit {
 
     // Handle the modal result
     modalRef.result
-    .then((result) => {
-     this.getKeyHolders();
-    })
-    .catch((error) => console.log(error));
+      .then((result) => {
+        this.getKeyHolders();
+      })
+      .catch((error) => console.log(error));
   }
 
 }

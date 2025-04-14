@@ -12,7 +12,7 @@
                 <a class="text-decoration-none text-link" routerLink="{{yearList[0]?.note_date | date: 'YYYY'}}" >{{yearList[0]?.note_date | date: 'YYYY'}}</a>
             </h5>
             <!-- <h6 class="text-secondary m-0 mt-3">{{yearList[0]?.note_date | date: 'YYYY'}}</h6> -->
-            <app-notes-card [items]="yearList" (editNote)="openNotePopup($event)" (deleteNote)="openDeleteDialog($event)" (seeMore)="seeMore($event)"></app-notes-card>
+                 
         </ng-container>
     </ng-container>
 

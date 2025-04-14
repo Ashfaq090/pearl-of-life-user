@@ -11,6 +11,7 @@ import { ObituaryInfoComponent } from './obituary-info/obituary-info.component';
 import { PersonalInfoComponent } from './personal-info/personal-info.component';
 import { NotesByYearComponent } from './notes/notes-by-year/notes-by-year.component';
 import { KeyHolderDetailsComponent } from './key-holders/key-holder-details/key-holder-details.component';
+import { MemoryFolderDetailsComponent } from './memories/memory-folder-details/memory-folder-details.component';
 
 const routes: Routes = [
   {
@@ -37,6 +38,10 @@ const routes: Routes = [
       {
         path: 'memories',
         component: MemoriesComponent
+      },
+      {
+        path: 'memories/folder/:id',
+        component: MemoryFolderDetailsComponent
       },
       {
         path: 'notes',

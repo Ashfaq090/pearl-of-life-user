@@ -2,19 +2,29 @@ import { inject, Injectable } from "@angular/core";
 import { BaseService } from "./base.service";
 import { Router } from "@angular/router";
 import { Subject } from "rxjs";
+import { jwtDecode } from "jwt-decode";
+import { JwtPayload } from "../interface/interface";
 
 @Injectable({
     providedIn: 'root',
 })
 export class SharedService extends BaseService {
 
-    private router = inject(Router);    
+    private router = inject(Router);
     public userToken: string | null = localStorage.getItem('accessToken');
     public toaster = new Subject<any>();
 
     public setUserToken(token: any): void {
         localStorage.setItem('accessToken', token);
         this.userToken = token;
+    }
+
+    public isKeyHolder() {
+        if (this.userToken) {
+            const decodedToken = jwtDecode<JwtPayload>(this.userToken);
+            return decodedToken.is_keyholder;
+        }
+        return false;
     }
 
     public clearUserData(): void {
@@ -34,7 +44,7 @@ export class SharedService extends BaseService {
     public showToast(toast: any) {
         this.toaster.next(toast);
     }
-    
+
     public hideToast() {
         this.toaster.next(false);
     }

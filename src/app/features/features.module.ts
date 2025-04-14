@@ -23,6 +23,10 @@ import { ManagePasswordComponent } from './passwords/manage-password/manage-pass
 import { NotesByYearComponent } from './notes/notes-by-year/notes-by-year.component';
 import { ManageKeyHoldersComponent } from './key-holders/manage-key-holders/manage-key-holders.component';
 import { KeyHolderDetailsComponent } from './key-holders/key-holder-details/key-holder-details.component';
+import { ManageMemoryFolderComponent } from './memories/manage-memory-folder/manage-memory-folder.component';
+import { MemoryFolderDetailsComponent } from './memories/memory-folder-details/memory-folder-details.component';
+import { EditableHeadingComponent } from '../shared/editable-heading/editable-heading.component';
+import { ManageMemoriesComponent } from './memories/manage-memories/manage-memories.component';
 
 
 @NgModule({
@@ -40,7 +44,10 @@ import { KeyHolderDetailsComponent } from './key-holders/key-holder-details/key-
     ManagePasswordComponent,
     NotesByYearComponent,
     ManageKeyHoldersComponent,
-    KeyHolderDetailsComponent
+    KeyHolderDetailsComponent,
+    ManageMemoryFolderComponent,
+    MemoryFolderDetailsComponent,
+    ManageMemoriesComponent
   ],
   imports: [
     CommonModule,
@@ -49,6 +56,7 @@ import { KeyHolderDetailsComponent } from './key-holders/key-holder-details/key-
     HeaderComponent,
     AddItemsCardComponent,
     NotesCardComponent,
+    EditableHeadingComponent,
     ReactiveFormsModule,
     NgbDatepickerModule,
     ConfirmationModalComponent

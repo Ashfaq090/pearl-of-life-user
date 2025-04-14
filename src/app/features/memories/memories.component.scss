@@ -1,0 +1,42 @@
+.memory-folders{
+    .memory-folders-pic{
+        width: 100%;
+        aspect-ratio: 1 / 1;
+        border-radius: 20px;
+        overflow: hidden;
+        margin-bottom: 8px;
+        background: url(../../../assets/icons/person.svg);
+        background-color: #FFC000;
+        background-repeat: no-repeat;
+        background-size: auto;
+        background-position: center;
+        &:hover{
+            background-color: #fff;
+            background: url(../../../assets/icons/person-hover.svg);
+            background-repeat: no-repeat;
+            background-size: auto;
+            background-position: center;
+            border: 2px solid #FFC000;
+            img {
+                transform: scale(1.3); /* Zoom the image by 20% */
+            }
+        }
+        img{
+            transition: transform 0.3s ease;
+            width: 100%;
+        }
+    }
+    .add-memory-folder{
+        background: url(../../../assets/icons/add-keyholder.svg);
+        background-color: #FFC000;
+        background-repeat: no-repeat;
+        background-size: auto;
+        background-position: center;
+        &:hover{
+            background: url(../../../assets/icons/add-keyholder-hover.svg);
+            background-repeat: no-repeat;
+            background-size: auto;
+            background-position: center;
+        }
+    }
+}

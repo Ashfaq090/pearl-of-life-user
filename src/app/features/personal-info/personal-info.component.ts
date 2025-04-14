@@ -66,7 +66,6 @@ export class PersonalInfoComponent implements OnInit {
     const path = 'personal-info/profile-pic';
     this.fileService.getFile(path).subscribe({
       next: (blob) => {
-        console.log(blob)
         const objectURL = URL.createObjectURL(blob);
         this.imageUrl = this.sanitizer.bypassSecurityTrustUrl(objectURL);
       },
@@ -139,7 +138,7 @@ export class PersonalInfoComponent implements OnInit {
   }
 
   upgradePlan() {
-    
+
   }
 
 }

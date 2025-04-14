@@ -43,7 +43,6 @@ export class ManageNotesComponent implements OnInit {
   }
 
   submit(){
-    console.log(this.noteForm);
     if(this.noteForm.invalid){
       console.log('Form invalid');
       return;

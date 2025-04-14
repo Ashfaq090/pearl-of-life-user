@@ -8,7 +8,7 @@ import { catchError, Observable, throwError } from 'rxjs';
 export class FileService {
   private apiUrl = 'http://localhost:3000'; // Update to match your backend endpoint
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   // Upload a file
   uploadFile(controller_path: string, file: File): Observable<Blob> {
@@ -18,7 +18,7 @@ export class FileService {
   }
 
   // Get a file
-  getFile(controller_path: string): Observable<Blob> {
+  getFile(controller_path: string): Observable<Blob | any> {
     return this.http.get(`${this.apiUrl}/${controller_path}`, { responseType: 'blob' });
   }
 

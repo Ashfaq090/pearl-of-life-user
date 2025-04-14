@@ -3,6 +3,7 @@ import { FormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../auth.service';
 import { SharedService } from 'src/app/services/shared.service';
+import { tap } from 'rxjs';
 
 @Component({
   selector: 'app-register-keyholder',
@@ -51,13 +52,19 @@ export class RegisterKeyholderComponent implements OnInit {
       this.authService.loginKeyHolder({
         token_url: this.tokenURL,
         pin: this.loginKeyHolderForm.value.pin
-      }).subscribe({
+      }).pipe(
+        tap((response) => {
+          // Authorization
+          const token = response.headers.get('Authorization');
+          this.sharedService.setUserToken(token);
+        })
+      ).subscribe({
         next: (res: any) => {
           this.sharedService.showToast({
             classname: 'success',
-            text: res?.message,
+            text: 'Login successful!',
           });
-          this.router.navigate(['/auth/login']);
+          this.router.navigate(['/dashboard']);
         },
         error: (err) => {
           this.sharedService.showToast({
