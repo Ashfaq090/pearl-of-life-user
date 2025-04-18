@@ -16,9 +16,9 @@ export class NotesComponent implements OnInit {
   constructor(
     private readonly notesService: NotesService,
     private readonly ngbModalService: NgbModal,
-    private readonly  sharedService: SharedService,
+    private readonly sharedService: SharedService,
     private readonly router: Router
-  ){}
+  ) { }
 
   public notes: any[] = [];
   public notesListByYear: any[] = [];
@@ -30,18 +30,18 @@ export class NotesComponent implements OnInit {
     page: 1,
     pagination: false
   }
-  
+
   ngOnInit(): void {
     this.getNotes();
   }
 
-  getNotes(){
+  getNotes() {
     const queryParams = objectToQueryParams(this.pageOptions);
     this.notesService.getNotes(queryParams).subscribe({
       next: (response) => {
         this.notes = response.data;
-        if(this.notes && this.notes.length)
-        this.arrangeNotesByYear(response.data);
+        if (this.notes && this.notes.length)
+          this.arrangeNotesByYear(response.data);
       },
       error: (err) => {
         this.sharedService.showToast({
@@ -52,20 +52,20 @@ export class NotesComponent implements OnInit {
     });
   }
 
-  arrangeNotesByYear(notes: any){
+  arrangeNotesByYear(notes: any) {
     this.notesListByYear = [];
     let startYear = new Date(notes[0].note_date).getFullYear();
-    let endYear = new Date(notes[notes.length-1].note_date).getFullYear();
-    while(startYear >= endYear){
+    let endYear = new Date(notes[notes.length - 1].note_date).getFullYear();
+    while (startYear >= endYear) {
       const list = this.notes.filter(x => startYear == (new Date(x.note_date).getFullYear()));
-      if(list.length){
+      if (list.length) {
         this.notesListByYear.push(list);
       }
       startYear--;
     }
   }
 
-  openNotePopup(item: any){
+  openNotePopup(item: any) {
     // Open the modal
     const modalRef = this.ngbModalService.open(ManageNotesComponent, {
       size: 'md',
@@ -80,12 +80,12 @@ export class NotesComponent implements OnInit {
       item: item?.id ? item : null,
     };
 
-     // Handle the modal result
-     modalRef.result
-     .then((result) => {
-      this.getNotes();
-     })
-     .catch((error) => console.log(error));
+    // Handle the modal result
+    modalRef.result
+      .then((result) => {
+        this.getNotes();
+      })
+      .catch((error) => console.log(error));
   }
 
   openDeleteDialog(note: any) {
@@ -108,7 +108,7 @@ export class NotesComponent implements OnInit {
       .catch((error) => console.log(note));
   }
 
-  deleteNote(note_id: string){
+  deleteNote(note_id: string) {
     this.notesService.deleteNote(note_id).subscribe({
       next: (response) => {
         this.sharedService.showToast({
@@ -126,7 +126,7 @@ export class NotesComponent implements OnInit {
     });
   }
 
-  seeMore(year: any){
+  seeMore(year: any) {
     this.router.navigate([`/notes/${year}`])
   }
 

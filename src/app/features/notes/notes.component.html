@@ -7,13 +7,13 @@
     </h5> -->
 
     <ng-container *ngIf="notes?.length; else noRecords">
-        <ng-container *ngFor="let yearList of notesListByYear">
-            <h5 class="pt-4">
-                <a class="text-decoration-none text-link" routerLink="{{yearList[0]?.note_date | date: 'YYYY'}}" >{{yearList[0]?.note_date | date: 'YYYY'}}</a>
+        <div class="d-flex gap-3 py-4">
+            <h5 class="py-3 px-5 link rounded pointer" *ngFor="let yearList of notesListByYear" routerLink="{{yearList[0]?.note_date | date: 'YYYY'}}">
+                {{yearList[0]?.note_date | date: 'YYYY'}}
             </h5>
             <!-- <h6 class="text-secondary m-0 mt-3">{{yearList[0]?.note_date | date: 'YYYY'}}</h6> -->
                  
-        </ng-container>
+        </div>
     </ng-container>
 
     <ng-template #noRecords>

@@ -18,22 +18,22 @@ export class NotesCardComponent implements OnChanges {
   @Output() readonly deleteNote = new EventEmitter<any>();
   @Output() readonly seeMore = new EventEmitter<any>();
 
-  ngOnChanges(simpleChange: SimpleChanges): void{
-    
+  ngOnChanges(simpleChange: SimpleChanges): void {
+
     const items = simpleChange['items'].currentValue || [];
     this.itemsList = (!this.showAll && items?.length > 6) ? items.slice(0, 5) : items;
 
   }
 
-  edit(note: string){
+  edit(note: string) {
     this.editNote.emit(note)
   }
 
-  delete(note: string){
+  delete(note: string) {
     this.deleteNote.emit(note)
   }
 
-  redirectToYear(year: string){
+  redirectToYear(year: string) {
     this.seeMore.emit(year)
   }
 

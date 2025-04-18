@@ -77,7 +77,7 @@ export class ManageMemoriesComponent implements OnInit {
       this.memoriesService.addMemories(
         file,
         {
-          folder_id: form.folder_id,
+          folder_id: this.data?.item?.folder_id || form.folder_id,
           description: form.description,
           date: form.date ? dateToIsoString(form.date) : null
         }).subscribe({

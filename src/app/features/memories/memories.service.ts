@@ -17,8 +17,8 @@ export class MemoriesService extends BaseService {
         return id && this.put(url, payload) || this.post(url, payload);
     }
 
-    getMemoriesFolderDetails(id: string): Observable<any> {
-        return this.get(`${this.baseUrl}/memories/folders/${id}`);
+    getMemoriesFolderDetails(optionalParams: any): Observable<any> {
+        return this.get(`${this.baseUrl}/memories/?${optionalParams ? optionalParams : ''}`);
     }
 
     addMemories(file: File, body?: any): Observable<any> {

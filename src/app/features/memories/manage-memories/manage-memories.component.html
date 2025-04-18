@@ -11,7 +11,6 @@
 
         <div class="profile-pic mx-auto my-3 position-relative">
             <div class="w-100">
-                <img *ngIf="!imageUrl" src="../../../assets/images/user-default-image.svg">
                 <img *ngIf="imageUrl" [src]="imageUrl" alt="Fetched Image" />
             </div>
             <button type="button" class="btn position-absolute bg-yellow border-0" (click)="fileInput.click()">

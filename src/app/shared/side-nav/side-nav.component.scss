@@ -29,17 +29,27 @@
         border-bottom-right-radius: 5px;
         overflow: hidden;
         font-weight: 400;
+        a{
+          color: #fff;
+        }
         .active{
-          background: #FFC000;
+          // background: #FFC000;
+          background-color: #FBAB7E;
+          background-image: linear-gradient(62deg, #FBAB7E 0%, #F7CE68 100%);
           color: black !important;
+          font-weight: 600;
           // img{
           //   content: url('../../../assets/icons/side-bar/active-dashboard.svg');
           // }
         } 
       }
       .nav-item :hover{
-        background: #FFC000;
+        // background: #FFC000;
+        // color: black !important;
+        background-color: #FBAB7E;
+        background-image: linear-gradient(62deg, #FBAB7E 0%, #F7CE68 100%);
         color: black !important;
+        font-weight: 600;
         // img{
         //   content: url('../../../assets/icons/side-bar/active-dashboard.svg');
         // }
@@ -51,10 +61,10 @@
     }
   }
   .logo{
-    width: 228px;
-    padding: 8px 64px;
-    border-radius: 64px;
-    background-color: #fff;
+    width: 120px;
+    // padding: 8px 64px;
+    // border-radius: 64px;
+    // background-color: #fff;
     img{
         width: 100%;
     }

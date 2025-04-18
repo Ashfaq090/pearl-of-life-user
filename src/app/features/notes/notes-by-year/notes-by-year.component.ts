@@ -14,7 +14,7 @@ import { objectToQueryParams } from 'src/app/constants/app.constant';
   styleUrls: ['./notes-by-year.component.scss']
 })
 export class NotesByYearComponent implements OnInit, OnDestroy {
-  
+
   public notesList: any[] = [];
   public notesListByMonths: any[] = [];
   public year: any;
@@ -29,8 +29,8 @@ export class NotesByYearComponent implements OnInit, OnDestroy {
     private readonly activatedRoute: ActivatedRoute,
     private readonly notesService: NotesService,
     private readonly ngbModalService: NgbModal,
-    private readonly sharedService: SharedService 
-  ){}
+    private readonly sharedService: SharedService
+  ) { }
 
   ngOnInit(): void {
     this.activatedRoute.paramMap.subscribe((params) => {
@@ -46,7 +46,7 @@ export class NotesByYearComponent implements OnInit, OnDestroy {
     this.removeScrollListener();
   }
 
-  removeScrollListener(){
+  removeScrollListener() {
     window.removeEventListener('scroll', this.scrollListener);
   }
 
@@ -59,17 +59,18 @@ export class NotesByYearComponent implements OnInit, OnDestroy {
     }
   }
 
-  getNotesByYear(){
+  getNotesByYear() {
     this.pageOptions['year'] = this.year;
     console.log(this.pageOptions);
     const queryParams = objectToQueryParams(this.pageOptions);
     this.notesService.getNotes(queryParams).subscribe({
       next: (response) => {
-        if(response?.data && response?.data?.length){
+        if (response?.data && response?.data?.length) {
+          this.notesList = [];
           this.notesList.push(...response.data);
           this.arrangeListByMonths();
         }
-        else{
+        else {
           this.removeScrollListener()
         }
       },
@@ -82,19 +83,19 @@ export class NotesByYearComponent implements OnInit, OnDestroy {
     });
   }
 
-  arrangeListByMonths(){
+  arrangeListByMonths() {
     this.notesListByMonths = [];
     let i = 12;
-    while(i > 0){
+    while (i > 0) {
       const list = this.notesList.filter(x => i == (new Date(x.note_date).getMonth() + 1));
-      if(list.length){
+      if (list.length) {
         this.notesListByMonths.push(list);
       }
       i--;
     }
   }
 
-  openNotePopup(item: any){
+  openNotePopup(item: any) {
     // Open the modal
     const modalRef = this.ngbModalService.open(ManageNotesComponent, {
       size: 'md',
@@ -109,12 +110,12 @@ export class NotesByYearComponent implements OnInit, OnDestroy {
       item: item?.id ? item : null,
     };
 
-     // Handle the modal result
-     modalRef.result
-     .then((result) => {
-      this.getNotesByYear();
-     })
-     .catch((error) => console.log(error));
+    // Handle the modal result
+    modalRef.result
+      .then((result) => {
+        this.getNotesByYear();
+      })
+      .catch((error) => console.log(error));
   }
 
   openDeleteDialog(note: any) {
@@ -137,7 +138,7 @@ export class NotesByYearComponent implements OnInit, OnDestroy {
       .catch((error) => console.log(note));
   }
 
-  deleteNote(note_id: string){
+  deleteNote(note_id: string) {
     this.notesService.deleteNote(note_id).subscribe({
       next: (response) => {
         this.sharedService.showToast({
