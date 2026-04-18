@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ADD_ITEMS_LIST, objectToQueryParams } from 'src/app/constants/app.constant';
+import {
+  ADD_ITEMS_LIST,
+  objectToQueryParams,
+} from 'src/app/constants/app.constant';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ManageNotesComponent } from './manage-notes/manage-notes.component';
 import { NotesService } from './notes.service';
@@ -10,7 +13,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-notes',
   templateUrl: './notes.component.html',
-  styleUrls: ['./notes.component.scss']
+  styleUrls: ['./notes.component.scss'],
 })
 export class NotesComponent implements OnInit {
   constructor(
@@ -18,18 +21,16 @@ export class NotesComponent implements OnInit {
     private readonly ngbModalService: NgbModal,
     private readonly sharedService: SharedService,
     private readonly router: Router
-  ) { }
+  ) {}
 
   public notes: any[] = [];
   public notesListByYear: any[] = [];
-  public addCardItems: any = [
-    ADD_ITEMS_LIST.NOTES
-  ]
+  public addCardItems: any = [ADD_ITEMS_LIST.NOTES];
   private pageOptions: any = {
     pageSize: 20,
     page: 1,
-    pagination: false
-  }
+    pagination: false,
+  };
 
   ngOnInit(): void {
     this.getNotes();
@@ -48,16 +49,19 @@ export class NotesComponent implements OnInit {
           classname: 'error',
           text: err?.error?.message,
         });
-      }
+      },
     });
   }
 
   arrangeNotesByYear(notes: any) {
+    //debugger;
     this.notesListByYear = [];
     let startYear = new Date(notes[0].note_date).getFullYear();
     let endYear = new Date(notes[notes.length - 1].note_date).getFullYear();
     while (startYear >= endYear) {
-      const list = this.notes.filter(x => startYear == (new Date(x.note_date).getFullYear()));
+      const list = this.notes.filter(
+        (x) => startYear == new Date(x.note_date).getFullYear()
+      );
       if (list.length) {
         this.notesListByYear.push(list);
       }
@@ -98,8 +102,8 @@ export class NotesComponent implements OnInit {
 
     modalRef.componentInstance.data = {
       title: 'Delete Note',
-      text: 'Are you sure you want to delete this note? This action is permanent and cannot be undone'
-    }
+      text: 'Are you sure you want to delete this note? This action is permanent and cannot be undone',
+    };
 
     modalRef.result
       .then((result) => {
@@ -122,12 +126,11 @@ export class NotesComponent implements OnInit {
           classname: 'error',
           text: err?.error?.message,
         });
-      }
+      },
     });
   }
 
   seeMore(year: any) {
-    this.router.navigate([`/notes/${year}`])
+    this.router.navigate([`/notes/${year}`]);
   }
-
 }

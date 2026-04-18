@@ -5,6 +5,7 @@ import { SharedService } from 'src/app/services/shared.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmationModalComponent } from 'src/app/shared/confirmation-modal/confirmation-modal.component';
 import { BE_URL } from 'src/app/constants/app.constant';
+import { ManageKeyHoldersComponent } from '../manage-key-holders/manage-key-holders.component';
 
 @Component({
   selector: 'app-key-holder-details',
@@ -71,6 +72,28 @@ export class KeyHolderDetailsComponent implements OnInit {
       .catch((error) => console.log(error));
   }
 
+  openEditDialog() {
+    const modalRef = this.ngbModalService.open(ManageKeyHoldersComponent, {
+      size: 'lg',
+      backdrop: 'static',
+      keyboard: false,
+      centered: false,
+    });
+
+    modalRef.componentInstance.data = {
+      name: 'Edit',
+      item: this.keyHolder,
+    };
+
+    modalRef.result
+      .then(() => {
+        if (this.keyHolder?.id) {
+          this.getKeyHolderById(this.keyHolder.id);
+        }
+      })
+      .catch(() => {});
+  }
+
   deleteKeyHolder() {
     this.keyHolderService.deleteKeyHolder(this.keyHolder.id).subscribe({
       next: (response) => {
@@ -87,6 +110,10 @@ export class KeyHolderDetailsComponent implements OnInit {
         });
       }
     });
+  }
+
+  goBack(): void {
+    this.router.navigate(['/key-holders']);
   }
 
 }

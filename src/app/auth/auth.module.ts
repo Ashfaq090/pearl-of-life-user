@@ -9,7 +9,6 @@ import { ForgetPasswordComponent } from './forget-password/forget-password.compo
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { RegisterKeyholderComponent } from './register-keyholder/register-keyholder.component';
 
-
 @NgModule({
   declarations: [
     LoginComponent,
@@ -17,12 +16,8 @@ import { RegisterKeyholderComponent } from './register-keyholder/register-keyhol
     RegisterComponent,
     ForgetPasswordComponent,
     ResetPasswordComponent,
-    RegisterKeyholderComponent
+    RegisterKeyholderComponent,
   ],
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    AuthRoutingModule
-  ]
+  imports: [CommonModule, ReactiveFormsModule, AuthRoutingModule],
 })
-export class AuthModule { }
+export class AuthModule {}

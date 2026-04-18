@@ -14,12 +14,17 @@
                 height: 188px;
             }
         }
-        button{
+        .d-flex {
             position: absolute;
-            height: auto;
-            padding: 8px;
             bottom: 0;
             right: 0;
+            z-index: 10;
+        }
+        
+        button{
+            height: auto;
+            padding: 8px;
+            margin: 0 2px;
         }
     }
 }
