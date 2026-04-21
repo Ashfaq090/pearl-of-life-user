@@ -12,6 +12,10 @@
       <span class="hamburger-icon">☰</span>
       <span class="close-icon" style="display: none">✕</span>
     </button>
+    <!-- Audio Control Button -->
+    <button class="audio-control" (click)="toggleAudio()">
+      <i class="fas" [ngClass]="isAudioMuted ? 'fa-volume-mute' : 'fa-volume-up'"></i>
+    </button>
     <!-- Navigation Buttons -->
     <div class="nav-buttons" [class.mobile-active]="isMobileMenuOpen">
       <button

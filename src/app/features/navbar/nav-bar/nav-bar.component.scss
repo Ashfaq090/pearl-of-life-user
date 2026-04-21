@@ -230,3 +230,50 @@
     transform: translateY(0);
   }
 }
+
+.audio-control {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.audio-control {
+  position: fixed;
+  top: 14px;
+  left: 250px;
+  border: none;
+  // border-radius: 50%;
+  // padding: 10px;
+  cursor: pointer;
+  // color: white;
+  font-size: 20px;
+  z-index: 999;
+}
+
+.audio-control:hover {
+  // background: rgba(255, 255, 255, 0.3);
+}
+
+@media (max-width: 768px) {
+  .audio-control {
+    font-size: 1.2rem;
+    /* smaller on tablets */
+    top: 0.5rem;
+    right: 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .audio-control {
+    font-size: 1rem;
+    /* even smaller on phones */
+  }
+}

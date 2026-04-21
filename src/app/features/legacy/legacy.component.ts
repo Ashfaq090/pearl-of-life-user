@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { SoundService } from 'src/app/services/sound.service';
+import { BackgroundAudioService } from 'src/app/services/background-audio.service';
 import { LEGACY_CARDS } from 'src/app/constants/legacy-cards.constant';
 
 @Component({
@@ -15,26 +16,27 @@ import { LEGACY_CARDS } from 'src/app/constants/legacy-cards.constant';
   templateUrl: './legacy.component.html',
   styleUrls: ['./legacy.component.scss'],
 })
-export class LegacyComponent implements AfterViewInit, OnDestroy {
+export class LegacyComponent implements OnInit, AfterViewInit, OnDestroy {
   legacyCards = LEGACY_CARDS;
-  @ViewChild('bgAudio') bgAudioRef!: ElementRef<HTMLAudioElement>;
   @ViewChild('bgVideo') bgVideoRef!: ElementRef<HTMLVideoElement>;
-  private gestureListeners: Array<() => void> = [];
   constructor(
     private readonly router: Router,
     private readonly route: ActivatedRoute,
-    private soundService: SoundService
+    private soundService: SoundService,
+    private backgroundAudioService: BackgroundAudioService
   ) {}
+  ngOnInit(): void {
+    this.isAudioMuted = this.backgroundAudioService.isAudioMuted;
+    this.backgroundAudioService.startIfNotStarted();
+  }
   ngAfterViewInit(): void {
     this.initMediaPlayback();
   }
 
   ngOnDestroy(): void {
-    this.cleanupGestureListeners();
   }
 
   private initMediaPlayback() {
-    const audio = this.bgAudioRef?.nativeElement;
     const video = this.bgVideoRef?.nativeElement;
 
     // Attempt to start video (muted autoplay should usually work)
@@ -45,54 +47,6 @@ export class LegacyComponent implements AfterViewInit, OnDestroy {
           console.warn('Video autoplay blocked or failed:', err?.message || err)
         );
     }
-
-    // Attempt to start audio muted; if blocked, wait for user gesture
-    if (audio) {
-      audio
-        .play()
-        .then(() => {
-          audio.muted = false;
-        })
-        .catch(() => {
-          this.registerGestureForAudio();
-        });
-    }
-  }
-
-  private registerGestureForAudio() {
-    const audio = this.bgAudioRef?.nativeElement;
-    if (!audio) return;
-
-    const tryPlay = () => {
-      audio.muted = false;
-      audio
-        .play()
-        .then(() => {
-          this.cleanupGestureListeners();
-        })
-        .catch((err) =>
-          console.warn('Audio play still blocked:', err?.message || err)
-        );
-    };
-
-    const events: Array<keyof WindowEventMap> = [
-      'click',
-      'touchstart',
-      'keydown',
-      'scroll',
-    ];
-    events.forEach((evt) => {
-      const handler = () => tryPlay();
-      window.addEventListener(evt, handler, { once: true, passive: true });
-      this.gestureListeners.push(() =>
-        window.removeEventListener(evt, handler)
-      );
-    });
-  }
-
-  private cleanupGestureListeners() {
-    this.gestureListeners.forEach((off) => off());
-    this.gestureListeners = [];
   }
 
   scrollToTop(type: string) {
@@ -166,21 +120,7 @@ export class LegacyComponent implements AfterViewInit, OnDestroy {
   isAudioMuted: boolean = false;
 
   async toggleAudio(audio?: HTMLAudioElement) {
-    const audioEl = audio || this.bgAudioRef?.nativeElement;
-    if (!audioEl) return;
-
-    if (audioEl.paused) {
-      audioEl.muted = false;
-      try {
-        await audioEl.play();
-        this.isAudioMuted = false;
-      } catch (err) {
-        console.warn('Audio play failed:', (err as any)?.message || err);
-      }
-    } else {
-      audioEl.pause();
-      this.isAudioMuted = true;
-      audioEl.muted = true;
-    }
+    this.backgroundAudioService.toggle();
+    this.isAudioMuted = this.backgroundAudioService.isAudioMuted;
   }
 }
