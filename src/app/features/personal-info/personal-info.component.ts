@@ -20,6 +20,7 @@ import { SharedService } from 'src/app/services/shared.service';
 import { PaymentService } from 'src/app/services/payment.service';
 import { Router } from '@angular/router';
 import { CustomDateParserFormatter } from 'src/app/shared/services/custom-date-parser-formatter.service';
+import { FeaturesService } from '../features.service';
 
 @Component({
   selector: 'app-personal-info',
@@ -40,9 +41,11 @@ export class PersonalInfoComponent implements OnInit, OnDestroy {
     private readonly sanitizer: DomSanitizer,
     private readonly sharedService: SharedService,
     private readonly paymentService: PaymentService,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly featuresService: FeaturesService
   ) {}
 
+  public currentUserPlanName: string;
   public imageUrl: any;
   public personalInfoForm: FormGroup;
   private personalDetails: any;
@@ -61,6 +64,9 @@ export class PersonalInfoComponent implements OnInit, OnDestroy {
   @ViewChild('videoElement') videoElement?: ElementRef<HTMLVideoElement>;
 
   ngOnInit(): void {
+    this.featuresService.currentUserPlan$.subscribe(value => {
+      this.currentUserPlanName = value
+    });
     this.personalInfoForm = this.formBuilder.group({
       first_name: ['', Validators.required],
       last_name: ['', Validators.required],

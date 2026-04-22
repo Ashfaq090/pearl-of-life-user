@@ -138,6 +138,7 @@ export class FeaturesComponent implements OnInit, OnDestroy {
         this.hasAnyPlan = !!(res?.plan && (res.plan.id || res.plan.name));
 
         this.currentUserPlanName = res?.plan?.name || null;
+        this.featuresService.setCurrentUserPlan(this.currentUserPlanName || 'Free');
         // Add Videos and Audios based on subscription plan
         if (res?.plan) {
           const plan = res.plan;

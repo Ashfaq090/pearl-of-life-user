@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { BaseService } from 'src/app/services/base.service';
 import { BE_URL } from '../constants/app.constant';
 
@@ -15,4 +15,12 @@ export class FeaturesService extends BaseService {
   sendEmail(email: string): Observable<any> {
     return this.post(`${this.baseUrl}/auth/send-email`, { email });
   }
+
+  private currentUserPlan = new BehaviorSubject<string>('Free');
+  currentUserPlan$ = this.currentUserPlan.asObservable();
+
+  setCurrentUserPlan(value: string) {
+    this.currentUserPlan.next(value);
+  }
+
 }
