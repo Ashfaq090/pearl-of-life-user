@@ -123,4 +123,10 @@ export class LegacyComponent implements OnInit, AfterViewInit, OnDestroy {
     this.backgroundAudioService.toggle();
     this.isAudioMuted = this.backgroundAudioService.isAudioMuted;
   }
+
+  gotoKeyHolderAccess(){
+    this.soundService.playClickSound();
+    this.router.navigate(['/auth/keyholder-access']);
+  }
+
 }

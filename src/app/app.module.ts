@@ -8,6 +8,7 @@ import { Interceptor } from './services/interceptor';
 import { NgbToastModule } from '@ng-bootstrap/ng-bootstrap';
 import { SubscriptionPlansComponent } from './features/subscriptionplan/subscriptionplan.component';
 import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [AppComponent, SubscriptionPlansComponent],
@@ -17,6 +18,7 @@ import { CommonModule } from '@angular/common';
     HttpClientModule,
     NgbToastModule,
     CommonModule,
+    ReactiveFormsModule
   ],
   providers: [
     {

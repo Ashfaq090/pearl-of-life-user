@@ -56,4 +56,14 @@ export class PaymentService {
       params: { page: page.toString(), limit: limit.toString() },
     });
   }
+
+  
+
+  subscribeViaPromo(promoCode: string, planId: string): Observable<any> {
+    return this.http.patch(`${this.apiUrl}/subscribe-via-promo`, {
+      promoCode,
+      planId,
+    });
+  }
+
 }

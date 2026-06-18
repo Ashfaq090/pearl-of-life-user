@@ -72,8 +72,15 @@
 
       <!-- Subscriptions -->
       <div class="card mt-4">
-        <div class="card-header">
+        <div class="card-header d-flex justify-content-between align-items-center">
           <h5 class="mb-0">Subscriptions</h5>
+          <button *ngIf="user.promo_code" type="button" class="btn btn-primary" (click)="removePromo()">
+            Remove Promo Code
+          </button>
+          <button *ngIf="!user.promo_code" type="button" class="btn btn-primary" (click)="providePromo()">
+            {{user.promo_code}}
+            Provide Promo Code
+          </button>
         </div>
         <div class="card-body">
           <div *ngIf="user.subscriptions && user.subscriptions.length > 0; else noSubscriptions">
@@ -166,10 +173,46 @@
             >
               <i class="bi bi-trash"></i> Terminate Account
             </button>
+            
+
+            <ng-container *ngIf="!user.date_of_death && !showDeceasedDateForm">
+              <button class="btn btn-danger" (click)="showDeceasedDateForm = true">Add Deceased Date</button>
+            </ng-container>
+
+            <ng-container *ngIf="user.date_of_death || showDeceasedDateForm">
+              <div >
+                <label for="dateOfDeathControl" class="form-label mt-3">Deceased Date</label>
+                <div class="input-group position-relative mb-3">
+                  <input
+                  class="form-control pe-5"
+                  placeholder="MM-DD-YY"
+                  ngbDatepicker
+                  #dp="ngbDatepicker"
+                  [formControl]="dateOfDeathControl"
+                  readonly
+                  />
+                  <span class="input-group-text" (click)="dp.toggle()">
+                  <img src="../../../../assets/icons/form/calender.svg" />
+                  </span>
+                  <div
+                  class="invalid-feedback"
+                  *ngIf="dateOfDeathControl.errors?.['required'] && (dateOfDeathControl.touched || dateOfDeathControl.dirty)"
+                  >
+                  Date is required
+                  </div>
+                </div>
+              </div>
+
+              <button class="btn btn-warning"
+                  (click)="updateDeceasedDate()">
+                <i class="bi bi-trash"></i> {{!user.date_of_death ? 'Add' : 'Update'}} Deceased Date
+              </button>
+
+            </ng-container>
+
           </div>
         </div>
       </div>
     </div>
   </div>
 </div>
-

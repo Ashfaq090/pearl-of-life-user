@@ -3,6 +3,7 @@ import { PaymentService } from 'src/app/services/payment.service';
 import { getYearlyPrice } from 'src/app/services/plan-display.util';
 import { FeaturesService } from '../features.service';
 import { Router } from '@angular/router';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-subscription-plans',
@@ -28,6 +29,9 @@ export class SubscriptionPlansComponent implements OnInit {
     'Greatest Friendships',
     'Special Instructions',
   ];
+
+  promoCodeOne: FormControl = new FormControl('');
+  promoCodeTwo: FormControl = new FormControl('');
 
   constructor(
     private paymentService: PaymentService,
@@ -431,4 +435,33 @@ export class SubscriptionPlansComponent implements OnInit {
   goToPricing(): void {
     this.router.navigate(['/pricing']);
   }
+
+  subscribeViaPromo(plan: any, index: number): void {
+    const promoCode = index == 0 ? this.promoCodeOne.value : this.promoCodeTwo.value;
+    if (!promoCode) {
+      alert('Please enter a promo code.');
+      return;
+    }
+
+    this.paymentService.subscribeViaPromo(promoCode, plan.id).subscribe({
+      next: (response: any) => {
+        if (response?.success) {
+          alert('Promo code applied successfully! Your subscription has been updated.');
+
+          // Optionally, you can refresh the subscription status or redirect the user
+          this.loadCurrentSubscription();
+
+          // Redirect to dashboard or another page if needed
+          this.router.navigate(['/dashboard']);
+        } else {
+          alert(response?.message || 'Failed to apply promo code. Please try again.');
+        }
+      },
+      error: (error) => {
+        console.error('Error applying promo code:', error);
+        alert(error?.error?.message || 'An error occurred. Please try again later.');
+      },
+    });
+  }
+
 }

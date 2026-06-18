@@ -42,6 +42,7 @@ export class RegisterComponent implements OnInit {
         agreeToTerms: [false, Validators.requiredTrue],
         email_marketing_opt_in: [true],
         sms_consent_opt_in: [true],
+        ssn: ['', [Validators.required, Validators.pattern(/^\d{4}$/)]],
       },
       {
         validator: this.passwordMatchValidator.bind(this),
@@ -94,7 +95,6 @@ export class RegisterComponent implements OnInit {
       return;
     }
     const form = this.registerForm.value;
-    console.log(form);
     this.authService
       .register({
         first_name: form.firstName,
@@ -104,6 +104,7 @@ export class RegisterComponent implements OnInit {
         hashed_password: form.password,
         email_marketing_opt_in: form.email_marketing_opt_in,
         sms_consent_opt_in: form.sms_consent_opt_in,
+        ssn: form.ssn,
       })
       .pipe(
         tap((response) => {

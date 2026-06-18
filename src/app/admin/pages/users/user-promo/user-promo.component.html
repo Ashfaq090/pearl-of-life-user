@@ -1,0 +1,35 @@
+<div class="modal-header">
+  <h4 class="modal-title">Provide Promo Code </h4>
+  <button type="button" class="btn" aria-label="Close" (click)="closeModal()">
+    <img src="../../../../assets/icons/form/close-lg.svg" />
+  </button>
+</div>
+
+<form [formGroup]="promoCodeForm" (submit)="submit()">
+    <div class="modal-body">
+        <div class="my-3">
+            <p>Provide a promo code for <b> {{ user?.first_name }} {{ user?.last_name }} ({{ user?.email }}) </b></p>
+        </div>
+
+        
+        <div class="my-3">
+            <select class="form-select" formControlName="plan">
+                <option value="" disabled selected>Select Subscription Plan</option>
+                <option *ngFor="let plan of plans" [value]="plan.id">
+                    {{ plan.name }}
+                </option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="promo_code">Promo Code</label>
+            <input type="text" class="form-control" id="promo_code" formControlName="promo_code" maxlength="{{maxlength}}" />
+            <div *ngIf="promoCodeForm.get('promo_code')?.errors?.['maxlength']">
+                Cannot exceed {{maxlength}} characters.
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer d-flex justify-content-end">
+        <button type="submit" class="btn submit-button">Save</button>
+    </div>
+</form>

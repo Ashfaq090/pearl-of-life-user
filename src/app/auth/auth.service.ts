@@ -17,6 +17,7 @@ export class AuthService {
   login(credentials: {
     email: string;
     hashed_password: string;
+    ssn?: string;  
   }): Observable<any> {
     return this.http.post(`${this.baseUrl}${this.auth}/login`, credentials, {
       observe: 'response',
@@ -36,6 +37,12 @@ export class AuthService {
 
   loginKeyHolder(reqObj: any): Observable<any> {
     return this.http.post(`${this.baseUrl}${this.auth}/keyholder`, reqObj, {
+      observe: 'response',
+    });
+  }
+
+  loginKeyHolderAccess(reqObj: any): Observable<any> {
+    return this.http.post(`${this.baseUrl}${this.auth}/keyholder-access`, reqObj, {
       observe: 'response',
     });
   }

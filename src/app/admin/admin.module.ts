@@ -15,6 +15,8 @@ import { AdminSubscriptionsComponent } from './pages/subscriptions/admin-subscri
 import { AdminPaymentsComponent } from './pages/payments/admin-payments.component';
 import { AdminEmailLogsComponent } from './pages/email-logs/admin-email-logs.component';
 import { AdminSettingsComponent } from './pages/settings/admin-settings.component';
+import { UserPromoComponent } from './pages/users/user-promo/user-promo.component';
+import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -30,6 +32,7 @@ import { AdminSettingsComponent } from './pages/settings/admin-settings.componen
     AdminPaymentsComponent,
     AdminEmailLogsComponent,
     AdminSettingsComponent,
+    UserPromoComponent,
   ],
   imports: [
     CommonModule,
@@ -37,6 +40,7 @@ import { AdminSettingsComponent } from './pages/settings/admin-settings.componen
     ReactiveFormsModule,
     RouterModule,
     AdminRoutingModule,
+    NgbDatepickerModule
   ],
 })
 export class AdminModule {}

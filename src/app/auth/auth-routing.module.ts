@@ -7,6 +7,7 @@ import { RegisterComponent } from './register/register.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { RegisterKeyholderComponent } from './register-keyholder/register-keyholder.component';
 import { LegacyComponent } from '../features/legacy/legacy.component';
+import { AccessKeyholderComponent } from './access-keyholder/access-keyholder.component';
 
 const routes: Routes = [
   {
@@ -36,6 +37,11 @@ const routes: Routes = [
         component: ResetPasswordComponent,
       },
       // { path: 'reset-password', component: ResetPasswordComponent }, // without :token
+
+      {
+        path: 'keyholder-access',
+        component: AccessKeyholderComponent,
+      },
 
       {
         path: 'keyholder/:tokenURL',

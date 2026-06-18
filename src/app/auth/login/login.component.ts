@@ -27,6 +27,7 @@ export class LoginComponent implements OnInit {
     this.loginForm = this.formBuilder.group({
       email: ['', Validators.required],
       password: ['', Validators.required],
+      ssn: ['', [Validators.pattern(/^\d{4}$/)]],
     });
   }
 
@@ -35,7 +36,7 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.invalid) {
       this.sharedService.showToast({
         classname: 'error',
-        text: 'Invalid Email and Password!',
+        text: 'Invalid Email or Password or SSN!',
       });
       return;
     }
@@ -44,6 +45,7 @@ export class LoginComponent implements OnInit {
       .login({
         email: form.email,
         hashed_password: form.password,
+        ssn: form.ssn,
       })
       .pipe(
         tap((response) => {

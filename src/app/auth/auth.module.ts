@@ -8,6 +8,8 @@ import { RegisterComponent } from './register/register.component';
 import { ForgetPasswordComponent } from './forget-password/forget-password.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { RegisterKeyholderComponent } from './register-keyholder/register-keyholder.component';
+import { AccessKeyholderComponent } from './access-keyholder/access-keyholder.component';
+import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -17,7 +19,8 @@ import { RegisterKeyholderComponent } from './register-keyholder/register-keyhol
     ForgetPasswordComponent,
     ResetPasswordComponent,
     RegisterKeyholderComponent,
+    AccessKeyholderComponent,
   ],
-  imports: [CommonModule, ReactiveFormsModule, AuthRoutingModule],
+  imports: [CommonModule, ReactiveFormsModule, AuthRoutingModule, NgbDatepickerModule],
 })
 export class AuthModule {}

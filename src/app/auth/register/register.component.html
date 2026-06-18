@@ -146,6 +146,29 @@
       </div>
     </div>
   </div>
+  <div class="my-2">
+    <label for="ssn" class="col-form-label text-white">Last 4 digits of SSN</label>
+    <input
+      type="text"
+      placeholder="Last 4 digits of SSN"
+      class="form-control"
+      id="ssn"
+      formControlName="ssn"
+    />
+    <div
+      *ngIf="
+        registerForm.get('ssn')?.touched && registerForm.get('ssn')?.invalid
+      "
+      class="text-danger small"
+    >
+      <div *ngIf="registerForm.get('ssn')?.errors?.['required']">
+        Last 4 digits of SSN is required
+      </div>
+      <div *ngIf="registerForm.get('ssn')?.errors?.['pattern']">
+        Enter a valid 4-digit SSN
+      </div>
+    </div>
+  </div>
   <div class="my-2 form-check">
     <input
       type="checkbox"

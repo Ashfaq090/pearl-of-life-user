@@ -1,0 +1,117 @@
+<form [formGroup]="accessKeyholderForm" (submit)="submit()">
+    <div>
+
+        <div class="mb-3">
+            <label for="firstName" class="col-form-label text-white">First Name</label>
+            <input
+                type="text"
+                placeholder="First Name"
+                class="form-control"
+                [class.is-invalid]="
+                (accessKeyholderForm.get('firstName')?.touched ||
+                    accessKeyholderForm.get('firstName')?.dirty) &&
+                accessKeyholderForm.get('firstName')?.invalid
+                "
+                id="firstName"
+                formControlName="firstName"
+            />
+            <div
+                class="invalid-feedback"
+                *ngIf="accessKeyholderForm.get('firstName')?.errors?.['required'] && (accessKeyholderForm.get('firstName')?.touched || accessKeyholderForm.get('firstName')?.dirty)"
+            >
+                First Name is required
+            </div>
+            <div
+                class="invalid-feedback"
+                *ngIf="accessKeyholderForm.get('firstName')?.errors?.['maxlength'] && (accessKeyholderForm.get('firstName')?.touched || accessKeyholderForm.get('firstName')?.dirty)"
+            >
+                First Name cannot be more than 20 characters
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="lastName" class="col-form-label text-white">Last Name</label>
+            <input
+                type="text"
+                placeholder="Last Name"
+                class="form-control"
+                [class.is-invalid]="
+                (accessKeyholderForm.get('lastName')?.touched ||
+                    accessKeyholderForm.get('lastName')?.dirty) &&
+                accessKeyholderForm.get('lastName')?.invalid
+                "
+                id="lastName"
+                formControlName="lastName"
+            />
+            <div
+                class="invalid-feedback"
+                *ngIf="accessKeyholderForm.get('lastName')?.errors?.['required'] && (accessKeyholderForm.get('lastName')?.touched || accessKeyholderForm.get('lastName')?.dirty)"
+            >
+                Last Name is required
+            </div>
+            <div
+                class="invalid-feedback"
+                *ngIf="accessKeyholderForm.get('lastName')?.errors?.['maxlength'] && (accessKeyholderForm.get('lastName')?.touched || accessKeyholderForm.get('lastName')?.dirty)"
+            >
+                Last Name cannot be more than 20 characters
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="ssn" class="col-form-label text-white">Last 4 digits of Account Holder's SSN</label>
+            <input
+            type="text"
+            placeholder="Last 4 digits of SSN"
+            class="form-control"
+            id="ssn"
+            formControlName="ssn"
+            />
+            <div
+                class="invalid-feedback"
+                *ngIf="accessKeyholderForm.get('ssn')?.errors?.['required'] && (accessKeyholderForm.get('ssn')?.touched || accessKeyholderForm.get('ssn')?.dirty)"
+            >
+                SSN is required
+            </div>
+            <div
+                class="invalid-feedback"
+                *ngIf="accessKeyholderForm.get('ssn')?.errors?.['maxlength'] && (accessKeyholderForm.get('ssn')?.touched || accessKeyholderForm.get('ssn')?.dirty)"
+            >
+                Last 4 digits of SSN cannot be more than 4 characters
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="dateOfDeath" class="col-form-label text-white">Account Holder's Date Of Death</label>
+            <div class="input-group position-relative mb-3">
+                <input
+                class="form-control pe-5"
+                [class.is-invalid]="
+                    (accessKeyholderForm.get('dateOfDeath')?.touched ||
+                    accessKeyholderForm.get('dateOfDeath')?.dirty) &&
+                    accessKeyholderForm.get('dateOfDeath')?.invalid
+                "
+                placeholder="MM-DD-YY"
+                name="dateOfDeath"
+                formControlName="dateOfDeath"
+                ngbDatepicker
+                #dateOfDeath="ngbDatepicker"
+                readonly
+                />
+                <span class="input-group-text" (click)="dateOfDeath.toggle()">
+                <img src="../../../../assets/icons/form/calender.svg" />
+                </span>
+                <div
+                class="invalid-feedback"
+                *ngIf="accessKeyholderForm.get('dateOfDeath')?.errors?.['required'] && (accessKeyholderForm.get('dateOfDeath')?.touched || accessKeyholderForm.get('dateOfDeath')?.dirty)"
+                >
+                Date is required
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-5">
+            <button type="submit" class="btn secondary-button w-100">Sign in</button>
+        </div>
+
+    </div>
+</form>

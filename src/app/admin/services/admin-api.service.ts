@@ -44,6 +44,10 @@ export class AdminApiService {
     return this.http.patch(`${this.baseUrl}/users/${id}/terminate`, {});
   }
 
+  updateDeceasedDate(id: string, dateOfDeath: string | null): Observable<any> {
+    return this.http.patch(`${this.baseUrl}/users/${id}/date-of-death`, { dateOfDeath });
+  }
+
   // KeyHolders
   getKeyHolders(page: number = 1, limit: number = 10): Observable<any> {
     const params = new HttpParams()
@@ -142,6 +146,10 @@ export class AdminApiService {
     if (filters?.endDate) params = params.set('endDate', filters.endDate);
 
     return this.http.get(`${this.baseUrl}/email-logs`, { params });
+  }
+
+  addUpdateUserPromo(userId: string, promoCode: string = '', promoPlanId: string = ''): Observable<any> {
+    return this.http.patch(`${this.baseUrl}/users/${userId}/promo`, { promoCode, promoPlanId });
   }
 }
 
