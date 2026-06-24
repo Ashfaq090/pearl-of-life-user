@@ -112,6 +112,9 @@ export class LegacyComponent implements OnInit, AfterViewInit, OnDestroy {
       this.soundService.playClickSound();
       this.router.navigate(['/auth/register']);
     } else {
+      if(type === 'signup'){
+        localStorage.setItem('register', 'register'); // just to identify that user is coming for register page
+      }
       this.soundService.playClickSound();
       // If the user is already logged in, redirect to the dashboard
       this.router.navigate(['/dashboard']);

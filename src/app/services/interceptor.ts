@@ -32,6 +32,12 @@ export class Interceptor implements HttpInterceptor {
     return next.handle(req).pipe(
       catchError((error: HttpErrorResponse) => {
         if (error.status === 401) {
+          // Handle unauthorized error (e.g., redirect to login)
+          const redirectCheck = localStorage.getItem('register');
+          if(redirectCheck && redirectCheck === 'register'){
+            localStorage.removeItem('register');
+            this.router.navigate(['/auth/register']);
+          }
           this.router.navigate(['/auth/login']);
         }
         throw error;

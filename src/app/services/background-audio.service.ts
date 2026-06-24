@@ -13,7 +13,8 @@ export class BackgroundAudioService {
 
   private initializeAudio() {
     if (typeof window !== 'undefined') {
-      this.audio = new Audio('/assets/new-audio.mpeg');
+      // this.audio = new Audio('/assets/new-audio.mpeg');
+      this.audio = new Audio('/assets/pol-updated-voice-over.mpeg');
       this.audio.preload = 'auto';
       this.audio.loop = true; // Assuming it should loop
       this.audio.volume = 0.5; // Set a default volume
