@@ -47,6 +47,7 @@
       class="form-control"
       id="email"
       formControlName="email"
+      autocomplete="off"
     />
     <div
       *ngIf="
@@ -80,6 +81,7 @@
     <label for="password" class="col-form-label text-white">Password</label>
     <div class="input-group">
       <input
+       autocomplete="new-password"
         [type]="showPassword ? 'text' : 'password'"
         placeholder="Password"
         class="form-control"

@@ -45,6 +45,16 @@ export class PricingComponent implements OnInit {
     // window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
+  scrollToRegister() {
+    this.soundService.playClickSound();
+    const token = localStorage.getItem('accessToken');
+    if (token) {
+      this.router.navigate(['/dashboard']);
+    } else {
+      this.router.navigate(['/auth/register']);
+    }
+  }
+
   goToPricing(): void {
     this.router.navigate(['/pricing']);
   }

@@ -113,7 +113,7 @@ export class AutoObituaryComponent implements OnInit {
     if (token) {
       this.router.navigate(['/dashboard']);
     } else {
-      this.router.navigate(['/auth/login']);
+      this.router.navigate(['/auth/register']);
     }
   }
 

@@ -22,10 +22,10 @@
         <div class="card-body text-center">
           <h3 class="card-title">{{ plan.name }}</h3>
           <h4 class="card-subtitle mb-2 text-muted">
-            $ {{ getDisplayYearly(plan) }}/year
+            ${{getDisplayMonthly(plan)}}/month
           </h4>
           <div class="annual-note" *ngIf="plan.membership">
-            {{ getMembershipLabel(plan) }}
+            Annually Price: ${{getDisplayYearly(plan)}}
           </div>
           <span class="auto-renewal" *ngIf="plan.auto">{{ plan.auto }}</span>
           <p class="card-text">{{ plan.description }}</p>
