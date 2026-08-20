@@ -30,6 +30,18 @@ export class RegisterComponent implements OnInit {
     private soundService: SoundService
   ) {}
 
+  referenceList: string[] = [
+    "Social Media (Facebook, YouTube, TikTok, Instagram)",
+    "Advertisement (Flyer, Pamphlet)",
+    "Workshop Outreach Event",
+    "Friend Family",
+    "Radio",
+    "Commercial",
+    "POMLWebsite",
+    "Funeral Home's",
+    "Other"
+  ]
+
   ngOnInit(): void {
     this.registerForm = this.formBuilder.group(
       {
@@ -42,7 +54,8 @@ export class RegisterComponent implements OnInit {
         agreeToTerms: [false, Validators.requiredTrue],
         email_marketing_opt_in: [true],
         sms_consent_opt_in: [true],
-        // ssn: ['', [Validators.required, Validators.pattern(/^\d{4}$/)]],
+        ssn: ['', [Validators.required, Validators.pattern(/^\d{4}$/)]],
+        reference: ['', Validators.required],
       },
       {
         validator: this.passwordMatchValidator.bind(this),
@@ -104,7 +117,8 @@ export class RegisterComponent implements OnInit {
         hashed_password: form.password,
         email_marketing_opt_in: form.email_marketing_opt_in,
         sms_consent_opt_in: form.sms_consent_opt_in,
-        // ssn: form.ssn,
+        ssn: form.ssn,
+        reference: form.reference
       })
       .pipe(
         tap((response) => {

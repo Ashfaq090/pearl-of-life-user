@@ -41,7 +41,10 @@ export class AdminUserDetailsComponent implements OnInit {
         this.loading = false;
         if(this.user.date_of_death){
           const dod = new Date(this.user.date_of_death);
-          this.dateOfDeathControl.setValue({ year: dod.getFullYear(), month: dod.getMonth() + 1, day: dod.getDate()-1 });
+          let text = this.user.date_of_death.split("T")[0];
+          let date = text.split("-");
+          this.dateOfDeathControl.setValue({ year: +date[0], month: +date[1], day: +date[2] });
+          this.dateOfDeathControl.updateValueAndValidity();
         }
       },
       error: (error) => {

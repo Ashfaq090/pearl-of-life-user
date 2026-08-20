@@ -218,7 +218,6 @@ export class SubscriptionPlansComponent implements OnInit {
       const isDev =
         window.location.hostname === 'localhost' ||
         window.location.hostname === '127.0.0.1' ||
-        true ||
         window.location.port === '4200';
 
       if (isDev) {

@@ -67,6 +67,13 @@
               <strong>Terminated:</strong> {{ user.terminated_at | date: 'medium' }}
             </div>
           </div>
+          
+          <div class="row mb-3">
+            <div class="col-12">
+              <strong>How Did You hear about us?</strong> {{ user?.reference || 'N/A' }}
+            </div>
+          </div>
+
         </div>
       </div>
 

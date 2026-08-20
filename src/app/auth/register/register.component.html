@@ -148,7 +148,7 @@
       </div>
     </div>
   </div>
-  <!-- <div class="my-2">
+  <div class="my-2">
     <label for="ssn" class="col-form-label text-white">Last 4 digits of SSN</label>
     <input
       type="text"
@@ -170,7 +170,26 @@
         Enter a valid 4-digit SSN
       </div>
     </div>
-  </div> -->
+  </div>
+
+
+  <div class="my-2">
+      <label for="address" class="col-form-label text-white">How did you hear about us?</label>
+      <select class="form-select" id="reference" formControlName="reference">
+        <option value="">Select</option>
+        <option *ngFor="let reference of referenceList" value="{{ reference }}">
+          {{ reference }}
+        </option>
+      </select>
+      <div *ngIf="registerForm.get('reference')?.touched && registerForm.get('reference')?.invalid"
+        class="text-danger small"
+      >
+        <div *ngIf="registerForm.get('reference')?.errors?.['required']">
+          Please select an option!
+        </div>
+      </div>
+    </div>
+
   <div class="my-2 form-check">
     <input
       type="checkbox"
