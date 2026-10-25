@@ -20,6 +20,7 @@ export class VideosComponent implements OnInit {
   totalItems = 0;
   showUploadForm = false;
   showRecordForm = false;
+  readonly maxVideoSizeBytes = 30_000_000;
   selectedFile: File | null = null;
   uploadTitle = '';
   uploadDescription = '';
@@ -151,7 +152,16 @@ export class VideosComponent implements OnInit {
   }
 
   onFileSelected(event: any) {
-    this.selectedFile = event.target.files[0];
+    const input = event.target as HTMLInputElement;
+    this.selectedFile = input.files?.[0] || null;
+    if (this.selectedFile && this.selectedFile.size > this.maxVideoSizeBytes) {
+      this.selectedFile = null;
+      input.value = '';
+      this.sharedService.showToast({
+        classname: 'error',
+        text: 'Video must be 30 MB or smaller. Please choose a smaller file.',
+      });
+    }
   }
 
   uploadVideo() {
@@ -160,6 +170,11 @@ export class VideosComponent implements OnInit {
         classname: 'error',
         text: 'Please select a file and provide a title',
       });
+      return;
+    }
+
+    if (this.selectedFile.size > this.maxVideoSizeBytes) {
+      this.sharedService.showToast({ classname: 'error', text: 'Video must be 30 MB or smaller.' });
       return;
     }
 

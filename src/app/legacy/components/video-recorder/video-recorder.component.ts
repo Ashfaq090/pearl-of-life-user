@@ -34,7 +34,7 @@ import { SharedService } from 'src/app/services/shared.service';
           class="btn btn-danger rounded-circle p-3"
           (click)="startRecording()"
         >
-          <i class="bi bi-record-fill"></i> Record
+          <i class="bi bi-record-fill"></i> Start recording
         </button>
         <button
           *ngIf="isRecording"
@@ -44,6 +44,12 @@ import { SharedService } from 'src/app/services/shared.service';
           <i class="bi bi-stop-fill"></i> Stop
         </button>
       </div>
+
+      <p class="text-muted small mb-3">
+        Maximum video size: 30 MB. At 2 Mbps, this is approximately 120 seconds
+        (2 minutes); actual duration varies with recording quality and your browser.
+        Recording stops automatically as it approaches the size limit.
+      </p>
 
       <!-- Recorded video preview and upload options -->
       <div *ngIf="recordedBlob" class="mb-3">
@@ -82,6 +88,8 @@ export class VideoRecorderComponent implements AfterViewInit {
   @Input() stageLabel: string | null = null;
 
   mediaRecorder: MediaRecorder | null = null;
+  readonly maxVideoSizeBytes = 30_000_000;
+  private recordedSizeBytes = 0;
   chunks: Blob[] = [];
   isRecording = false;
   recordedBlob: Blob | null = null;
@@ -167,17 +175,31 @@ export class VideoRecorderComponent implements AfterViewInit {
       }
 
       this.chunks = [];
+      this.recordedSizeBytes = 0;
       this.recordingStartTime = Date.now();
 
       this.mediaRecorder.ondataavailable = (e) => {
         if (e.data && e.data.size > 0) {
           this.chunks.push(e.data);
+          this.recordedSizeBytes += e.data.size;
+          // Leave headroom for the final chunk emitted when stopping.
+          if (this.recordedSizeBytes >= this.maxVideoSizeBytes * 0.95 && this.isRecording) {
+            this.stopRecording();
+            this.toastOutput.emit({ classname: 'warning', text: 'Recording stopped near the 30 MB size limit.' });
+          }
         }
       };
 
       this.mediaRecorder.onstop = () => {
-        this.recordedBlob = new Blob(this.chunks, { type: 'video/webm' });
-        this.previewUrl = URL.createObjectURL(this.recordedBlob);
+        this.isRecording = false;
+        this.recordedBlob = new Blob(this.chunks, { type: this.chunks[0]?.type || 'video/webm' });
+        if (this.recordedBlob.size > this.maxVideoSizeBytes) {
+          this.recordedBlob = null;
+          this.chunks = [];
+          this.toastOutput.emit({ classname: 'error', text: 'Recording exceeded 30 MB. Please record a shorter video.' });
+        } else {
+          this.previewUrl = URL.createObjectURL(this.recordedBlob);
+        }
         this.recordingDuration = Math.floor(
           (Date.now() - this.recordingStartTime) / 1000
         );
@@ -195,7 +217,7 @@ export class VideoRecorderComponent implements AfterViewInit {
         this.cleanup();
       };
 
-      this.mediaRecorder.start();
+      this.mediaRecorder.start(1000);
     } catch (err: any) {
       console.error('Error accessing camera:', err);
       this.isRecording = false;
@@ -288,6 +310,7 @@ export class VideoRecorderComponent implements AfterViewInit {
     this.previewUrl = null;
     this.videoTitle = '';
     this.chunks = [];
+    this.recordedSizeBytes = 0;
     this.recordingDuration = 0;
     this.recordingStartTime = 0;
 
@@ -317,6 +340,11 @@ export class VideoRecorderComponent implements AfterViewInit {
     if (!this.recordedBlob) {
       console.log('Emitting toast:', { classname: 'error', text: 'Please record a video before uploading' });
       this.toastOutput.emit({ classname: 'error', text: 'Please record a video before uploading' });
+      return;
+    }
+
+    if (this.recordedBlob.size > this.maxVideoSizeBytes) {
+      this.toastOutput.emit({ classname: 'error', text: 'Video must be 30 MB or smaller.' });
       return;
     }
 

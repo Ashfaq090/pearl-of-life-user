@@ -50,7 +50,8 @@
       </div>
       <div class="mb-3">
         <label class="form-label">Select Video File *</label>
-        <input type="file" class="form-control" accept="video/*" (change)="onFileSelected($event)">
+        <input type="file" class="form-control" accept="video/*" (change)="onFileSelected($event)" aria-describedby="videoSizeNote">
+        <p id="videoSizeNote" class="text-muted small mt-2 mb-0">Maximum video file size: 30 MB.</p>
       </div>
       <div class="d-flex gap-2">
         <button class="btn btn-primary" (click)="uploadVideo()" [disabled]="!selectedFile || !uploadTitle">Upload</button>
