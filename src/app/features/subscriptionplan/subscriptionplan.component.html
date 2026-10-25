@@ -2,6 +2,8 @@
   <a [routerLink]="'/dashboard'" class="back-home-btn"> ⬅ Back to Home </a>
   <h2 class="text-center mb-4">Choose Your Subscription Plan</h2>
 
+  <p *ngIf="paymentMessage" class="alert alert-info" role="status">{{ paymentMessage }}</p>
+
   <div *ngIf="loading" class="text-center py-5">
     <div class="spinner-border text-primary" role="status">
       <span class="visually-hidden">Loading...</span>
@@ -55,19 +57,22 @@
               </div>
             </div>
           </div>
-          <div
-            #paypalButton
-            id="paypal-button-{{ plan.id }}"
-            class="mt-3"
-          ></div>
-          
           <div class="d-flex gap-3">
-            <input *ngIf="i === 0" type="text" class="form-control mt-3" placeholder="Enter Promo Code" [formControl]="promoCodeOne" />
-            <input *ngIf="i === 1" type="text" class="form-control mt-3" placeholder="Enter Promo Code" [formControl]="promoCodeTwo" />
-            <button class="btn btn-primary mt-3" (click)="subscribeViaPromo(plan, i)">
-              Avail this Plan
+            <input *ngIf="i === 0" type="text" class="form-control mt-3" placeholder="Enter Promo Code"
+              aria-label="Promo code" [formControl]="promoCodeOne" [readonly]="checkoutBusy || applyingPromo" (focus)="selectPlan(plan)" />
+            <input *ngIf="i === 1" type="text" class="form-control mt-3" placeholder="Enter Promo Code"
+              aria-label="Promo code" [formControl]="promoCodeTwo" [readonly]="checkoutBusy || applyingPromo" (focus)="selectPlan(plan)" />
+            <button class="btn btn-primary mt-3" [disabled]="applyingPromo || checkoutBusy" (click)="subscribeViaPromo(plan, i)">
+              {{ applyingPromo && selectedPlanId === plan.id ? 'Applying...' : 'Apply Promo' }}
             </button>
           </div>
+          <div *ngIf="promoOrder && promoOrder.planId === plan.id" class="mt-3" aria-live="polite">
+            Original: <s>{{ promoOrder.originalAmount | currency:promoOrder.currency:'symbol':'1.0-2' }}</s>
+            &middot; Promo discount: {{ promoOrder.discountPercent }}%
+            &middot; Total: {{ promoOrder.amount | currency:promoOrder.currency:'symbol':'1.0-2' }} {{ promoOrder.currency }}
+            <p class="fw-bold mt-2 mb-0">Pay {{ promoOrder.amount | currency:promoOrder.currency:'symbol':'1.0-2' }} with PayPal</p>
+          </div>
+          <div id="paypal-button-{{ plan.id }}" class="mt-3"></div>
 
         </div>
       </div>

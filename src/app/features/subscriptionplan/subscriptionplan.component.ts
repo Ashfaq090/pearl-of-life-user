@@ -4,6 +4,7 @@ import { getYearlyPrice } from 'src/app/services/plan-display.util';
 import { FeaturesService } from '../features.service';
 import { Router } from '@angular/router';
 import { FormControl } from '@angular/forms';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-subscription-plans',
@@ -29,6 +30,28 @@ export class SubscriptionPlansComponent implements OnInit {
     'Greatest Friendships',
     'Special Instructions',
   ];
+
+  selectedPlanId: string | null = null;
+  promoOrder: {
+    orderId: string; planId: string; originalAmount: number;
+    amount: number; discountPercent: number; currency: string; status: string;
+  } | null = null;
+  applyingPromo = false;
+  checkoutBusy = false;
+  paymentMessage = '';
+  private promoRequestVersion = 0;
+  private promoAttempted = false;
+
+  selectPlan(plan: any, renderButtons = true): void {
+    if (this.checkoutBusy || this.selectedPlanId === plan.id) return;
+    this.selectedPlanId = plan.id;
+    this.promoRequestVersion++;
+    this.applyingPromo = false;
+    this.promoOrder = null;
+    this.promoAttempted = false;
+    this.paymentMessage = '';
+    if (renderButtons) this.renderPayPalButtonsSafely();
+  }
 
   promoCodeOne: FormControl = new FormControl('');
   promoCodeTwo: FormControl = new FormControl('');
@@ -80,6 +103,8 @@ export class SubscriptionPlansComponent implements OnInit {
         // Initialize PayPal buttons after plans are loaded
         this.loadPayPalScript().then(() => {
           this.renderPayPalButtonsSafely();
+        }).catch(() => {
+          this.paymentMessage = 'PayPal could not be loaded. Please reload the page and try again.';
         });
       },
       error: (error) => {
@@ -89,6 +114,8 @@ export class SubscriptionPlansComponent implements OnInit {
         this.plans = this.sortPlansByPrice(this.getDefaultPlans());
         this.loadPayPalScript().then(() => {
           this.renderPayPalButtonsSafely();
+        }).catch(() => {
+          this.paymentMessage = 'PayPal could not be loaded. Please reload the page and try again.';
         });
       },
     });
@@ -199,113 +226,86 @@ export class SubscriptionPlansComponent implements OnInit {
   }
 
   private renderPayPalButtonsSafely(): void {
-    if (!(window as any)?.paypal?.Buttons) {
-      return;
-    }
+    if (!(window as any)?.paypal?.Buttons) return;
 
-    // Defer until Angular has rendered the containers for current plans
     setTimeout(() => {
       this.plans.forEach((plan) => {
         const container = document.getElementById(`paypal-button-${plan.id}`);
         if (!container) return;
-
-        // Clear any previous render to avoid stale bindings
         container.innerHTML = '';
-
-        const chargeAmount = this.getEffectiveYearlyForPlan(plan);
-
-      // Check if we're in development mode
-      const isDev =
-        window.location.hostname === 'localhost' ||
-        window.location.hostname === '127.0.0.1' ||
-        window.location.port === '4200';
-
-      if (isDev) {
-        // Add a fake purchase button for dev environment
-        const fakeButton = document.createElement('button');
-        fakeButton.className = 'btn btn-primary w-100 mt-3';
-        fakeButton.style.cssText =
-          'padding: 12px; font-size: 16px; font-weight: bold; background: #FFD700; color: #2c3e50; border: none;';
-        fakeButton.textContent = `[DEV MODE] Subscribe for $${chargeAmount}/year`;
-        fakeButton.onclick = () => {
-          if (
-            confirm(
-              `[DEV MODE] This will create a fake subscription for $${chargeAmount}/year.\n\nPlan: ${plan.name}\n\nContinue?`
-            )
-          ) {
-            this.fakePurchase(plan);
-          }
-        };
-        container.appendChild(fakeButton);
-      } else {
-        // Load PayPal SDK for production
-        this.loadPayPalScript().then(() => {
-          if ((window as any).paypal) {
-            // @ts-ignore
-            window.paypal
-              .Buttons({
-                createOrder: () => {
-                  return this.paymentService
-                    .createOrder(this.getEffectiveYearlyForPlan(plan), plan.id)
-                    .toPromise()
-                    .then((response) => response?.orderId ?? '');
-                },
-                onApprove: (data: any) => {
-                  return this.ngZone.run(() => {
-                    return this.paymentService
-                      .capturePayment(data.orderID, plan.id)
-                      .toPromise()
-                      .then((details) => {
-                        alert('Transaction completed successfully!');
-                        // Handle successful subscription
-                        window.location.reload();
-                      })
-                      .catch((error) => {
-                        console.error('Payment capture failed:', error);
-                        alert('Transaction failed. Please try again.');
-                      });
-                  });
-                },
-                onError: (err: any) => {
-                  console.error('PayPal button error:', err);
-                  alert('An error occurred. Please try again later.');
-                },
-              })
-              .render(`#paypal-button-${plan.id}`);
-          }
-        });
-      }
+        if (this.checkoutBusy) return;
+        // Only the plan with a pending/failed promo attempt needs to wait.
+        if (this.selectedPlanId === plan.id &&
+            (this.applyingPromo || (this.promoAttempted && !this.promoOrder))) return;
+        const promo = this.promoOrder?.planId === plan.id ? this.promoOrder : null;
+        const isCurrent = () =>
+          (this.promoOrder?.planId === plan.id ? this.promoOrder : null) === promo;
+        (window as any).paypal.Buttons({
+          style: { label: 'pay' },
+          createOrder: () => this.ngZone.run(async () => {
+            if (!isCurrent() || this.applyingPromo || this.checkoutBusy) {
+              throw new Error('Please select the plan and apply your promo again.');
+            }
+            // Clicking a normal checkout also selects its plan, clearing another
+            // plan's promo without replacing the PayPal button opening checkout.
+            this.selectPlan(plan, false);
+            this.checkoutBusy = true;
+            this.paymentMessage = '';
+            try {
+              // Promo orders already exist: never create a second, full-price order.
+              if (promo) return promo.orderId;
+              const response = await firstValueFrom(this.paymentService.createOrder(
+                this.getEffectiveYearlyForPlan(plan), plan.id
+              ));
+              if (!response?.orderId) throw new Error('No payment order was returned.');
+              return response.orderId;
+            } catch (error) {
+              this.checkoutBusy = false;
+              throw error;
+            }
+          }),
+          onApprove: (data: any) => this.ngZone.run(async () => {
+            if (!isCurrent() || (promo && data.orderID !== promo.orderId)) {
+              this.checkoutBusy = false;
+              this.paymentMessage = 'The payment order does not match the selected plan. Please apply your promo again.';
+              return;
+            }
+            this.checkoutBusy = true;
+            try {
+              const details = await firstValueFrom(this.paymentService.capturePayment(
+                promo ? promo.orderId : data.orderID, promo ? promo.planId : plan.id
+              ));
+              if ((details?.status ?? details?.data?.status) !== 'COMPLETED') {
+                this.paymentMessage = 'Payment has not completed. Please retry checkout.';
+                return;
+              }
+              this.paymentMessage = 'Payment completed successfully!';
+              this.promoOrder = null;
+              this.selectedPlanId = null;
+              this.promoRequestVersion++;
+              this.loadCurrentSubscription();
+              this.loadUserPlan();
+            } catch (error: any) {
+              this.paymentMessage = error?.error?.message || 'Payment failed. Please retry checkout.';
+            } finally {
+              this.checkoutBusy = false;
+            }
+          }),
+          onCancel: () => this.ngZone.run(() => {
+            this.checkoutBusy = false;
+            this.paymentMessage = 'Checkout cancelled. You can retry your payment.';
+          }),
+          onError: (error: any) => this.ngZone.run(() => {
+            console.error('PayPal checkout failed:', error);
+            this.checkoutBusy = false;
+            this.paymentMessage = 'Payment failed. Please retry checkout.';
+          }),
+        }).render(container).catch((error: any) => this.ngZone.run(() => {
+          console.error('PayPal button could not be rendered:', error);
+          this.paymentMessage = 'PayPal could not be loaded. Please reload the page and try again.';
+        }));
       });
     }, 0);
-  }
-
-  private fakePurchase(plan: any) {
-    // Create a fake order ID
-    const fakeOrderId = `dev-order-${Date.now()}-${Math.random()
-      .toString(36)
-      .substr(2, 9)}`;
-    const chargeAmount = this.getEffectiveYearlyForPlan(plan);
-
-    // Call the backend with fake order ID
-    this.paymentService.capturePayment(fakeOrderId, plan.id).subscribe({
-      next: (details) => {
-        alert(
-          `[DEV MODE] Fake subscription created successfully!\n\nPlan: ${plan.name}\nPrice: $${chargeAmount}/year\n\nYou can now test subscription features.`
-        );
-        // Redirect to dashboard to test subscription features
-        setTimeout(() => {
-          window.location.href = '/dashboard';
-        }, 1000);
-      },
-      error: (error) => {
-        console.error('Fake purchase failed:', error);
-        alert(
-          `Fake purchase failed: ${
-            error.error?.message || error.message
-          }\n\nCheck backend logs and ensure NODE_ENV is set to 'development'.`
-        );
-      },
-    });
   }
 
   private loadUserPlan(): void {
@@ -436,29 +436,41 @@ export class SubscriptionPlansComponent implements OnInit {
   }
 
   subscribeViaPromo(plan: any, index: number): void {
-    const promoCode = index == 0 ? this.promoCodeOne.value : this.promoCodeTwo.value;
+    if (this.checkoutBusy || this.applyingPromo) return;
+    this.selectPlan(plan);
+    const promoCode = String(index === 0 ? this.promoCodeOne.value : this.promoCodeTwo.value).trim();
     if (!promoCode) {
-      alert('Please enter a promo code.');
+      this.paymentMessage = 'Please enter a promo code.';
       return;
     }
-
+    const version = ++this.promoRequestVersion;
+    this.promoOrder = null;
+    this.promoAttempted = true;
+    this.applyingPromo = true;
+    this.paymentMessage = '';
+    this.renderPayPalButtonsSafely();
     this.paymentService.subscribeViaPromo(promoCode, plan.id).subscribe({
       next: (response: any) => {
-        if (response?.success) {
-          alert('Promo code applied successfully! Your subscription has been updated.');
-
-          // Optionally, you can refresh the subscription status or redirect the user
-          this.loadCurrentSubscription();
-
-          // Redirect to dashboard or another page if needed
-          this.router.navigate(['/dashboard']);
-        } else {
-          alert(response?.message || 'Failed to apply promo code. Please try again.');
+        if (version !== this.promoRequestVersion || this.selectedPlanId !== plan.id) return;
+        this.applyingPromo = false;
+        const pricing = response?.data;
+        const orderId = response?.orderId || pricing?.orderId;
+        if (response?.success !== true || !orderId || pricing?.planId !== plan.id ||
+            pricing?.status !== 'pending' || pricing?.currency !== 'USD' ||
+            typeof pricing?.amount !== 'number' || !Number.isFinite(pricing.amount) || pricing.amount < 0 ||
+            typeof pricing?.originalAmount !== 'number' || !Number.isFinite(pricing.originalAmount) ||
+            typeof pricing?.discountPercent !== 'number' || !Number.isFinite(pricing.discountPercent)) {
+          this.paymentMessage = response?.message || 'No valid promo order was returned. Please apply the promo again.';
+          // Keep checkout unavailable after an unsuccessful promo attempt.
+          return;
         }
+        this.promoOrder = { ...pricing, orderId };
+        this.renderPayPalButtonsSafely();
       },
       error: (error) => {
-        console.error('Error applying promo code:', error);
-        alert(error?.error?.message || 'An error occurred. Please try again later.');
+        if (version !== this.promoRequestVersion) return;
+        this.applyingPromo = false;
+        this.paymentMessage = error?.error?.message || 'Failed to apply promo code. Please try again.';
       },
     });
   }
