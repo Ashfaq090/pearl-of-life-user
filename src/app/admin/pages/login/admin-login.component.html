@@ -2,7 +2,7 @@
   <div class="login-card">
     <div class="login-header">
       <h2>Admin Login</h2>
-      <p class="text-muted">PearlsOfMyLife Admin Panel</p>
+      <p class="text-muted">PearlsOfMyLyfe Admin Panel</p>
     </div>
 
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
@@ -13,7 +13,7 @@
           id="email"
           class="form-control"
           formControlName="email"
-          placeholder="admin@pearloflife.com"
+          placeholder="admin@pearloflyfe.com"
           [class.is-invalid]="loginForm.get('email')?.invalid && loginForm.get('email')?.touched"
         />
         <div
@@ -72,7 +72,7 @@
 
     <div class="login-footer mt-3">
       <p class="text-muted small">
-        Default: admin@pearloflife.com / Admin@123
+        Default: admin@pearloflyfe.com / Admin@123
       </p>
     </div>
   </div>
